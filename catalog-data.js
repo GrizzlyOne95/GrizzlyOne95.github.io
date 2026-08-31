@@ -1,0 +1,62 @@
+const collections=[
+{id:'3252859256',title:'Battlezone 98 Redux Enhancements',count:19,desc:'A curated collection of mods designed to modernize and enrich the stock Battlezone 98 Redux experience.',image:'https://images.steamusercontent.com/ugc/13547204808275104079/A6094B6989613D1CD89B3B4CB16D7F0F813B52D0/?ima=fit&imcolor=%23000000&imh=5000&impolicy=Letterbox&imw=5000&letterbox=false'},
+{id:'3538255964',title:'Battlezone: Rise of the Black Dogs',count:5,desc:'A collection of Rise of the Black Dogs campaign, model, audio, and related content for Battlezone 98 Redux.',image:'https://images.steamusercontent.com/ugc/9270404711200259005/D04B1B9F7DA18E5E7CD8BA2E55B156F49D068A73/?ima=fit&imcolor=%23000000&imh=5000&impolicy=Letterbox&imw=5000&letterbox=false'},
+{id:'3252806408',title:'The Red Wolf Faction',count:3,desc:'All Red Wolf faction items for Battlezone 98 Redux.',image:'https://images.steamusercontent.com/ugc/2462984668453485250/8A8A88CE425AB4BACF936E7916FE94FB8E63DB94/?ima=fit&imcolor=%23000000&imh=5000&impolicy=Letterbox&imw=5000&letterbox=false'}
+];
+const groups=[
+{title:'Major Releases',code:'// FEATURED',items:[
+{id:'3686673790',title:'Open Community Patch + Campaign Reimagined',badge:'Patch + campaign',desc:'Engine fixes, restored behavior, expanded functionality, and a reworked campaign experience.',image:'https://images.steamusercontent.com/ugc/13003046850883185620/A793E0507250F2B55837A811D0E54D14D6A361B6/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true',major:true},
+{id:'3536800125',title:'Battlezone: Resurgence [OPEN BETA]',badge:'Experimental mod pack',desc:'A large experimental pack restoring cut concepts, units, mechanics, and expanded Battlezone content.',image:'https://images.steamusercontent.com/ugc/18049767828248486702/2B88DEE09DDE4ECFA5AAF83F5D4E69D20D39A8A1/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true',major:true},
+{id:'3476765858',title:'Battlezone: Rise of the Black Dogs',badge:'Full campaign',desc:'A full reimagining of the Nintendo 64 Black Dog campaign with additional modes and modern Redux presentation.',image:'https://images.steamusercontent.com/ugc/17431935278391303982/4AC15598E40D0C788B07CEC9105204E3E3DBF777/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true',major:true},
+{id:'3162242823',title:'ISDF Chronicles: Campaign & Mod Pack',badge:'Campaign + total-conversion pack',desc:'A 17-mission bridge between Battlezone and Battlezone II with custom factions, worlds, systems, audio, and pilot gameplay.',major:true}
+]},
+{title:'Campaigns & Missions',code:'// PLAYABLE CONTENT',items:[
+{id:'3494851869',title:'Chinese Mission Pack: Remastered',badge:'Campaign',image:'https://images.steamusercontent.com/ugc/15492178853704532904/1F9C9080B65DF3936BD5BC89AC68EE93F71C586E/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3456499092',title:'DoomZone',badge:'Crossover mission',image:'https://images.steamusercontent.com/ugc/14337907855264515186/4F2FBAD121BA445240DE0E0C7F9080DFBD60BDC8/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3260784999',title:'Elite Corps: Campaign',badge:'Campaign'},
+{id:'3254983304',title:'Last Of The Galilean: Campaign',badge:'Campaign'},
+{id:'3252534193',title:'The Shrieking Eagles Missions',badge:'Mission pack'},
+{id:'3247439768',title:'The Red Wolf Missions',badge:'Campaign'},
+{id:'2973893698',title:'Legacy of the Black Dogs: Campaign',badge:'Campaign',image:'https://images.steamusercontent.com/ugc/2024975266635035060/A3DB0A0CE93D67AA78E057FD9A482AAAEAD58E25/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'2962582568',title:'The Battle Zone (BZ Intro Inspired Mission)',badge:'Instant Action',image:'https://images.steamusercontent.com/ugc/2023846993155148607/4A86572B2574BCC8285ABCA9C96097DF8D50654C/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'2801464172',title:"Flyn' Solo",badge:'Single-player mission',image:'https://cdn.steamusercontent.com/ugc/1814397973082415036/654D6FEFC351634C2322127ECA71884B13111952/?ima=fit&imcolor=%23000000&imh=358&impolicy=Letterbox&imw=637&letterbox=true'},
+{id:'1232872330',title:'Downhils (Faction Switch)',badge:'Faction-switch mission',image:'https://images.steamusercontent.com/ugc/904526306020707830/1B0CD4FAA98B15DD05B72FABFAC06AEB5D70464B/?ima=fit&imcolor=%23000000&imh=358&impolicy=Letterbox&imw=637&letterbox=true'},
+{id:'1226405037',title:"Don't Tread On Me",badge:'Instant Action',image:'https://images.steamusercontent.com/ugc/874126412964970285/0F413345DC97ABCE0124AEC9DEC0858D418C47BC/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'756417397',title:'Death by Dawn',badge:'Classic mission',image:'https://images.steamusercontent.com/ugc/254839288189417585/1009E0049F3E5B82BBAA4F03A9CA3A90389BC860/?ima=fit&imcolor=%23000000&imh=358&impolicy=Letterbox&imw=637&letterbox=true'},
+{id:'755648341',title:'Downhill',badge:'Classic mission',image:'https://images.steamusercontent.com/ugc/254839288183453337/1009E0049F3E5B82BBAA4F03A9CA3A90389BC860/?ima=fit&imcolor=%23000000&imh=358&impolicy=Letterbox&imw=637&letterbox=true'}
+]},
+{title:'Visual, UI, Audio & Models',code:'// ENHANCEMENTS',items:[
+{id:'3650896096',title:'CyberZone: Animated HUD',badge:'HUD',image:'https://images.steamusercontent.com/ugc/16529477284254367737/EC5264FDC9ECE4CED7CFCBD96E23224A594F97DF/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3650892552',title:'CyberZone: Full Reskin',badge:'Textures',image:'https://images.steamusercontent.com/ugc/15484090093650334108/B004C99CB0DE2FA6C125BDD4712B63720585FA55/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3650890928',title:'CyberZone: New Font',badge:'UI font',image:'https://images.steamusercontent.com/ugc/15127946674558954781/4FE123A027EEAB309387388E6245378FF6311F34/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3650876719',title:'CyberZone: Soundtrack',badge:'Audio',image:'https://images.steamusercontent.com/ugc/11760492965806432797/EE85AA3C6DFF983646343422024EA05E1BBA5842/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3522108622',title:'Rise of the Black Dogs: N64 Models',badge:'Model pack',image:'https://images.steamusercontent.com/ugc/17449715529993446318/29F456A37E9D32A5B5F50C908386E8A423F801DB/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3471131954',title:'Fixed Headlights',badge:'Visual fix',image:'https://images.steamusercontent.com/ugc/33323018029334711/5AA1DB738AC997B1F021DDD300DB0FF85E4FFB41/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3375799194',title:'NSDF Red Devil',badge:'Skin',image:'https://images.steamusercontent.com/ugc/33309703775579574/6AEED0B4B3DBAB045F432883965DAE85B0816230/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3362769993',title:'ISDF Chronicles: HUD Mod',badge:'HUD',image:'https://images.steamusercontent.com/ugc/33307800764286527/C48ED9AB94BCEC206C8A721793C32BAFA3263B14/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3362406849',title:'The Red Odyssey Intro Models',badge:'Model replacement',image:'https://images.steamusercontent.com/ugc/33321834201370269/BFDCD19F4115831F0C4A5118CFFD8584CF895966/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3354241549',title:'World: Iapetus',badge:'World textures',image:'https://images.steamusercontent.com/ugc/2464124428050773298/11777F79D5EAF756D7568F4B78B451742E190E0A/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3339328426',title:'Better Terrain: Ground Overhaul',badge:'Terrain',image:'https://images.steamusercontent.com/ugc/33322383285575369/617623F82B3703ECF4CD527E52AEB14E8E8DAAF7/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3338936369',title:'World: Callisto',badge:'World textures',image:'https://images.steamusercontent.com/ugc/2458492391321132034/8E98ED7E75260D4C5455E776E43667F84CEB14FB/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3338930839',title:'Better Skies: Sky Overhaul',badge:'Sky overhaul',image:'https://images.steamusercontent.com/ugc/2458492391321118865/4B2A1DF19138EB20D66C14DCE54A4D690A08C302/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3256000983',title:"Cover Tank - 'Truman Bobcat'",badge:'Vehicle model'},
+{id:'3245077113',title:'Unique Black Dog Cockpit',badge:'Cockpit texture'},
+{id:'3129993450',title:'Explosion Chunks',badge:'Effects'},
+{id:'3127015460',title:'No Headlights',badge:'Visual option',image:'https://images.steamusercontent.com/ugc/2264812881904382515/E1E0E31AC5F5DFF0BE8EBDCC25B4A518DFF08BED/?ima=fit&imcolor=%23000000&impolicy=Letterbox&imw=512&letterbox=false'},
+{id:'3125420768',title:'Nightingale: Fixed Redux Model',badge:'Model fix'},
+{id:'3122655486',title:'Sniper Bullet Effects',badge:'Weapon effects',image:'https://images.steamusercontent.com/ugc/2264812245442467732/11D0A1031DF1CA06F6C4FFCED3F04DBE66CEEB61/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'}
+]},
+{title:'Multiplayer, Experimental & Archive',code:'// OTHER RELEASES',items:[
+{id:'3383347069',title:'Battlezone 98 Redux/PSP Custom DM mode',badge:'Deathmatch',image:'https://images.steamusercontent.com/ugc/33311145853151657/E61EF195B106E0A09CE2EA7D8D1BD476F539D606/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3304321806',title:'BZToo: Demo Mod',badge:'Preservation',image:'https://images.steamusercontent.com/ugc/2483257751327453443/E7EB834A3EC6037FEF7808D84B21AE39A76AEE1F/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'1226347897',title:'Cliffhanger Snipers',badge:'Multiplayer deathmatch',image:'https://images.steamusercontent.com/ugc/874126637033929679/A7760DE5222A3C6D32E933C7AFE0501E3E6CC8B7/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'}
+]}
+];
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function thumb(item){if(!item.image)return `<div class="mod-thumb fallback"><span>${esc(item.title)}</span></div>`;return `<div class="mod-thumb"><img loading="lazy" src="${esc(item.image)}" alt="${esc(item.title)}"></div>`;}
+function wireFallbacks(root){root.querySelectorAll('.mod-thumb img,.collection-thumb img').forEach(img=>img.addEventListener('error',()=>{const box=img.parentElement;box.classList.add('fallback');box.innerHTML=`<span>${esc(img.alt)}</span>`;}));}
+const croot=document.getElementById('collections-root');
+croot.innerHTML=`<section class="collection-section"><div class="mod-section-head"><h2>Workshop Collections</h2><span>// 3 CURATED SETS</span></div><div class="collection-grid">${collections.map(c=>`<a class="collection-card" href="https://steamcommunity.com/sharedfiles/filedetails/?id=${c.id}" target="_blank" rel="noopener"><div class="collection-thumb"><img loading="lazy" src="${esc(c.image)}" alt="${esc(c.title)}"></div><div class="collection-copy"><span class="mod-badge">${c.count} items</span><h3>${esc(c.title)}</h3><p>${esc(c.desc)}</p><span class="mod-open">Open collection ↗</span></div></a>`).join('')}</div></section>`;
+const mroot=document.getElementById('mods-root');
+mroot.innerHTML=groups.map(g=>`<section class="mod-section"><div class="mod-section-head"><h2>${esc(g.title)}</h2><span>${esc(g.code)}</span></div><div class="mod-grid">${g.items.map(i=>`<a class="mod-card${i.major?' major':''}" href="https://steamcommunity.com/sharedfiles/filedetails/?id=${i.id}" target="_blank" rel="noopener">${thumb(i)}<div class="mod-copy"><span class="mod-badge">${esc(i.badge)}</span><h3>${esc(i.title)}</h3>${i.desc?`<p>${esc(i.desc)}</p>`:''}<span class="mod-open">View on Steam ↗</span></div></a>`).join('')}</div></section>`).join('');
+wireFallbacks(document);
