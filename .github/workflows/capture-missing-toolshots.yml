@@ -1,0 +1,125 @@
+name: Capture Missing Tool UIs
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout site branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install desktop capture dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb x11-utils wmctrl imagemagick python3-tk
+          python -m pip install --upgrade pip
+
+      - name: Clone tool repositories
+        run: |
+          mkdir -p tool-src captures
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98Redux_WorldBuilder.git tool-src/world-builder
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98Redux_HeightmapGen.git tool-src/heightmap-generator
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98Redux_LocalizationTool.git tool-src/localization-tool
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98Redux_BZN_Scanner.git tool-src/bzn-scanner
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone_PSPExtractor.git tool-src/psp-extractor
+
+      - name: Install tool dependencies
+        run: |
+          python -m pip install -r tool-src/world-builder/requirements.txt
+          python -m pip install -r tool-src/heightmap-generator/requirements.txt
+          python -m pip install -r tool-src/localization-tool/requirements.txt
+          python -m pip install -r tool-src/psp-extractor/requirements.txt
+
+      - name: Launch and capture tool windows
+        shell: bash
+        run: |
+          set -u
+          Xvfb :99 -screen 0 1920x1200x24 > /tmp/xvfb.log 2>&1 &
+          XVFB_PID=$!
+          export DISPLAY=:99
+          sleep 2
+
+          capture_app() {
+            local slug="$1"
+            local workdir="$2"
+            shift 2
+            echo "=== Capturing ${slug} ==="
+            pushd "$workdir" >/dev/null
+            "$@" >"/tmp/${slug}.log" 2>&1 &
+            local app_pid=$!
+            popd >/dev/null
+
+            local wid=""
+            for i in $(seq 1 20); do
+              sleep 1
+              wid=$(wmctrl -l | awk 'NR==1 {print $1}')
+              if [ -n "$wid" ]; then
+                break
+              fi
+              if ! kill -0 "$app_pid" 2>/dev/null; then
+                echo "${slug} exited before opening a window"
+                cat "/tmp/${slug}.log" || true
+                return 1
+              fi
+            done
+
+            if [ -z "$wid" ]; then
+              echo "No X11 window found for ${slug}"
+              cat "/tmp/${slug}.log" || true
+              kill "$app_pid" 2>/dev/null || true
+              return 1
+            fi
+
+            sleep 2
+            echo "Window: $(wmctrl -l | head -1)"
+            import -window "$wid" "${GITHUB_WORKSPACE}/captures/${slug}.png"
+            identify "${GITHUB_WORKSPACE}/captures/${slug}.png" || true
+            kill "$app_pid" 2>/dev/null || true
+            wait "$app_pid" 2>/dev/null || true
+            sleep 1
+          }
+
+          capture_app world-builder "$GITHUB_WORKSPACE/tool-src/world-builder" python world_builder.py || true
+          capture_app heightmap-generator "$GITHUB_WORKSPACE/tool-src/heightmap-generator" python heightmap_generator.py --gui || true
+          capture_app localization-tool "$GITHUB_WORKSPACE/tool-src/localization-tool" python localization.py || true
+          capture_app bzn-scanner "$GITHUB_WORKSPACE/tool-src/bzn-scanner" python bzn_scan.py || true
+          capture_app psp-extractor "$GITHUB_WORKSPACE/tool-src/psp-extractor" python app/bzpsp_gui.py || true
+
+          kill "$XVFB_PID" 2>/dev/null || true
+
+          echo "=== Captures ==="
+          ls -lh captures || true
+          echo "=== Logs ==="
+          for f in /tmp/world-builder.log /tmp/heightmap-generator.log /tmp/localization-tool.log /tmp/bzn-scanner.log /tmp/psp-extractor.log; do
+            echo "--- $f ---"
+            cat "$f" 2>/dev/null || true
+          done
+
+      - name: Require all five captures
+        run: |
+          test -s captures/world-builder.png
+          test -s captures/heightmap-generator.png
+          test -s captures/localization-tool.png
+          test -s captures/bzn-scanner.png
+          test -s captures/psp-extractor.png
+
+      - name: Upload captures
+        uses: actions/upload-artifact@v4
+        with:
+          name: missing-tool-runtime-captures
+          path: captures/*.png
+          if-no-files-found: error
+          retention-days: 2
