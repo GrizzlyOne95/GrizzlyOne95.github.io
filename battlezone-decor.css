@@ -1,0 +1,138 @@
+/* Battlezone-only decorative layer.
+   Scoped by the active Battlezone navigation item so About/Media/Other remain unchanged. */
+
+body:has(.nav-parent.active[href="./battlezone.html"]) {
+  background:
+    linear-gradient(180deg, rgba(3, 6, 4, .70), rgba(3, 6, 4, .93) 42rem, #030504 100%),
+    radial-gradient(circle at 68% 8%, rgba(157, 204, 88, .13), transparent 34rem),
+    url("./assets/decor/highres-combat.jpg") center top / min(1400px, 100vw) auto no-repeat fixed,
+    #040605;
+}
+
+body:has(.nav-parent.active[href="./battlezone.html"]) .content-shell {
+  position: relative;
+  background: linear-gradient(180deg, rgba(14, 20, 16, .965), rgba(6, 9, 7, .987));
+  border-color: #344639;
+}
+
+body:has(.nav-parent.active[href="./battlezone.html"]) .side-logo {
+  position: relative;
+  padding-top: 104px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(8, 13, 9, .62), rgba(7, 11, 8, .96)),
+    url("./assets/decor/bztemp.jpg") center / cover no-repeat;
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) .side-logo::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 78px;
+  height: 74px;
+  transform: translateX(-50%);
+  background: url("./assets/decor/grizzly-circle.png") center / contain no-repeat;
+  filter: drop-shadow(0 0 12px rgba(157, 204, 88, .16));
+}
+
+body:has(.nav-parent.active[href="./battlezone.html"]) .nav-parent.active { padding-right: 48px; }
+body:has(.nav-parent.active[href="./battlezone.html"]) .nav-parent.active::after {
+  content: "";
+  position: absolute;
+  right: 9px;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  transform: translateY(-50%);
+  background: url("./assets/decor/bzlogo.png") center / contain no-repeat;
+  opacity: .78;
+  filter: drop-shadow(0 0 5px rgba(116, 255, 116, .17));
+}
+
+body:has(.nav-parent.active[href="./battlezone.html"]) .hero-banner {
+  position: relative;
+  overflow: hidden;
+  padding: 17px 19px;
+  background:
+    linear-gradient(90deg, rgba(2, 8, 5, .78), rgba(3, 9, 6, .48), rgba(2, 8, 5, .82)),
+    url("./assets/decor/bztemp.jpg") center / cover no-repeat;
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) .hero-banner::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  pointer-events: none;
+  background: url("./assets/decor/bz-frame.png") center / 100% 100% no-repeat;
+  opacity: .72;
+  z-index: 2;
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) .hero-banner img {
+  position: relative;
+  z-index: 1;
+  background: rgba(2, 7, 4, .70);
+  box-shadow: inset 0 0 22px rgba(126, 255, 112, .05);
+}
+
+body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar {
+  isolation: isolate;
+  background:
+    linear-gradient(90deg, rgba(30, 49, 26, .94), rgba(13, 20, 14, .96) 55%, rgba(9, 14, 10, .98)),
+    url("./assets/decor/battle-tile.jpg") center 58% / cover no-repeat;
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: 24px;
+  top: 12px;
+  width: min(330px, 44%);
+  height: calc(100% - 24px);
+  background: url("./assets/decor/bzlogo-full.png") right center / contain no-repeat;
+  opacity: .13;
+  filter: saturate(.8);
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar > * {
+  position: relative;
+  z-index: 1;
+}
+
+body:has(.nav-parent.active[href="./battlezone.html"]) .project-card.featured,
+body:has(.nav-parent.active[href="./battlezone.html"]) .category-card.featured {
+  background:
+    linear-gradient(145deg, rgba(17, 31, 18, .87), rgba(7, 12, 8, .96) 70%),
+    url("./assets/decor/battle-tile.jpg") center / cover no-repeat;
+}
+
+body:has(.nav-parent.active[href="./battlezone.html"]) .lede,
+body:has(.nav-parent.active[href="./battlezone.html"]) .creator-note {
+  background:
+    linear-gradient(90deg, rgba(7, 17, 9, .93), rgba(8, 14, 10, .97)),
+    url("./assets/decor/bztemp.jpg") center / cover no-repeat;
+  border-left-color: #8be85d;
+}
+
+body:has(.nav-parent.active[href="./battlezone.html"]) .section-rule::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  background: url("./assets/decor/bzlogo.png") center / contain no-repeat;
+  opacity: .72;
+}
+
+@media (max-width: 860px) {
+  body:has(.nav-parent.active[href="./battlezone.html"]) {
+    background-position: center top;
+    background-attachment: scroll;
+  }
+  body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar::before {
+    right: 12px;
+    width: 46%;
+    opacity: .09;
+  }
+}
+
+@media (max-width: 660px) {
+  body:has(.nav-parent.active[href="./battlezone.html"]) .hero-banner { padding: 10px 11px; }
+  body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar::before { width: 52%; }
+}
