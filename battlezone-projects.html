@@ -4,39 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090d0a">
-  <meta name="description" content="Battlezone 98 Redux engineering projects by GrizzlyOne95 — OpenShim, Extra Utilities, Blender integrations, and reverse-engineering work.">
+  <meta name="description" content="Battlezone engineering projects by GrizzlyOne95 — OpenShim, Extra Utilities, bzfile, Campaign Reimagined, and the Battlezone 1.5 shim.">
   <title>GrizzlyOne95 // Battlezone Projects</title>
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./site-enhancements.css">
 </head>
 <body>
   <div class="site-frame">
     <header class="mobile-header"><a class="mobile-brand" href="./index.html">GRIZZLYONE95</a><nav class="mobile-nav" aria-label="Mobile navigation"><a href="./index.html">About</a><a class="active" href="./battlezone.html">Battlezone</a><a href="./media.html">Media</a><a href="./other.html">Other</a></nav></header>
-    <aside class="sidebar" aria-label="Site navigation">
-      <div class="sidebar-shell">
-        <a class="side-logo" href="./index.html"><strong>GRIZZLYONE95</strong><span>SYSTEMS // GAMES // TOOLS</span></a>
-        <nav class="side-nav">
-          <a class="nav-link" href="./index.html">About</a>
-          <a class="nav-parent active" href="./battlezone.html">Battlezone</a>
-          <div class="subnav"><a class="active" href="./battlezone-projects.html">Projects</a><a href="./battlezone-mods.html">Mods</a><a href="./battlezone-tools.html">Tools</a></div>
-          <a class="nav-link" href="./media.html">Media</a>
-          <a class="nav-link" href="./other.html">Other</a>
-        </nav>
-        <div class="side-foot">GRIZZLYONE95.GITHUB.IO<br><a href="https://github.com/GrizzlyOne95">GITHUB PROFILE ↗</a></div>
-      </div>
-    </aside>
+    <aside class="sidebar" aria-label="Site navigation"><div class="sidebar-shell"><a class="side-logo" href="./index.html"><strong>GRIZZLYONE95</strong><span>SYSTEMS // GAMES // TOOLS</span></a><nav class="side-nav"><a class="nav-link" href="./index.html">About</a><a class="nav-parent active" href="./battlezone.html">Battlezone</a><div class="subnav"><a class="active" href="./battlezone-projects.html">Projects</a><a href="./battlezone-mods.html">Mods</a><a href="./battlezone-tools.html">Tools</a></div><a class="nav-link" href="./media.html">Media</a><a class="nav-link" href="./other.html">Other</a></nav><div class="side-foot">GRIZZLYONE95.GITHUB.IO<br><a href="https://github.com/GrizzlyOne95">GITHUB PROFILE ↗</a></div></div></aside>
     <main class="content-shell">
       <div class="hero-banner"><img src="./assets/grizzlyone95_hero.svg" alt="GrizzlyOne95 — Systems, Game Tools, Reverse Engineering"></div>
-      <header class="page-titlebar"><p class="eyebrow">BATTLEZONE // 02A</p><h1>Battlezone Projects</h1><p>Engine extensions · modding APIs · Blender integrations · reverse engineering</p></header>
+      <header class="page-titlebar"><p class="eyebrow">BATTLEZONE // 02A</p><h1>Battlezone Projects</h1><p>Runtime extensions · modding APIs · file infrastructure · campaign engineering</p></header>
       <div class="content-body">
-        <p class="lede">Larger engineering work around Battlezone 98 Redux: native runtime extensions, scripting APIs, reverse engineering, and Blender-based content pipelines. Standalone Python utilities now have their own Tools catalog.</p>
+        <p class="lede">Larger Battlezone engineering efforts that span runtime work, reusable libraries, scripting infrastructure, or substantial content development. Blender add-ons and standalone utilities now live in the Tools catalog.</p>
         <nav class="anchor-tabs" aria-label="Battlezone navigation"><a href="./battlezone.html">Overview</a><a class="active-tab" href="./battlezone-projects.html">Projects</a><a href="./battlezone-mods.html">Mods</a><a href="./battlezone-tools.html">Tools</a></nav>
         <div class="grid-2">
           <article class="project-card featured"><span class="label">Native runtime layer</span><h3>OpenShim</h3><p>A native compatibility and enhancement layer for Battlezone 98 Redux covering engine reverse engineering, runtime patching, graphics modernization, performance analysis, UI extensions, compatibility fixes, and expanded modding capabilities.</p><div class="card-links"><a href="https://github.com/GrizzlyOne95/Battlezone98Redux_Shim">Repository ↗</a></div></article>
           <article class="project-card"><span class="label">Modding API</span><h3>Extra Utilities</h3><p>A Lua-facing extension layer that expands the scripting and modding surface available to Battlezone 98 Redux missions and custom content.</p><div class="card-links"><a href="https://github.com/GrizzlyOne95/ExtraUtilities">Repository ↗</a></div></article>
-          <article class="project-card"><span class="label">Blender workflow</span><h3>BZ98R Blender Toolkit</h3><p>Integrated Blender tooling for creating, processing, and validating Battlezone 98 Redux content inside a modern DCC workflow.</p><div class="card-links"><a href="https://github.com/GrizzlyOne95/BZ98RBlenderToolKit">Repository ↗</a></div></article>
-          <article class="project-card"><span class="label">Asset interoperability</span><h3>MSH / XSI Blender Tools</h3><p>Python-based Blender import/export integrations for legacy Battlezone MSH and XSI asset workflows.</p><div class="card-links"><a href="https://github.com/GrizzlyOne95/io_scene_bz2msh">MSH tools ↗</a><a href="https://github.com/GrizzlyOne95/io_scene_bz2xsi">XSI tools ↗</a></div></article>
+          <article class="project-card"><span class="label">File infrastructure</span><h3>bzfile</h3><p>Reusable Battlezone file-format tooling and parsing infrastructure for working with game data outside the engine, supporting broader authoring and reverse-engineering workflows.</p><div class="card-links"><a href="https://github.com/GrizzlyOne95/bzfile">Repository ↗</a></div></article>
+          <article class="project-card featured"><span class="label">Campaign modernization</span><h3>Campaign Reimagined</h3><p>A large-scale Battlezone 98 Redux campaign project that rebuilds and extends the original campaign presentation and gameplay using modernized assets, scripting, tooling, and engine-side enhancements.</p><div class="card-links"><a href="https://github.com/GrizzlyOne95/Battlezone98Redux_CampaignReimagined">Repository ↗</a></div></article>
+          <article class="project-card"><span class="label">Legacy runtime compatibility</span><h3>Battlezone 1.5 Shim</h3><p>A dedicated compatibility and runtime-extension project for the classic Battlezone 1.5 executable, separate from the Redux OpenShim track.</p><div class="card-links"><a href="https://github.com/GrizzlyOne95/Battlezone1.5_Shim-">Repository ↗</a></div></article>
         </div>
-        <div class="status-line"><span>BATTLEZONE // PROJECTS</span><span>ENGINE + API + BLENDER</span></div>
+        <div class="status-line"><span>BATTLEZONE // PROJECTS</span><span>RUNTIME + API + FILES + CAMPAIGN</span></div>
       </div>
     </main>
   </div>
