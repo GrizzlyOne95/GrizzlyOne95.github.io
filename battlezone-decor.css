@@ -111,12 +111,26 @@ body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar > * {
   max-width: 56%;
 }
 
-/* Archival texture is reserved for high-value emphasis surfaces rather than every card. */
+/* Give all project/tool/category tiles a faint Battlezone image underlay. */
+body:has(.nav-parent.active[href="./battlezone.html"]) :is(.project-card, .category-card) {
+  --bz-card-art: url("./assets/decor/HighresScreenshot00005.png");
+  --bz-card-pos: center;
+  background:
+    linear-gradient(145deg, rgba(14,22,16,.955), rgba(7,12,8,.985) 74%),
+    var(--bz-card-art) var(--bz-card-pos) / cover no-repeat;
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) .grid-2 > .project-card:nth-child(even) { --bz-card-pos: 72% center; }
+body:has(.nav-parent.active[href="./battlezone.html"]) .grid-2 > .project-card:nth-child(3n) { --bz-card-pos: 28% center; }
+body:has(.nav-parent.active[href="./battlezone.html"]) .grid-3 > .project-card:nth-child(2n) { --bz-card-pos: 68% center; }
+body:has(.nav-parent.active[href="./battlezone.html"]) .grid-3 > .project-card:nth-child(3n) { --bz-card-pos: 30% center; }
+
+/* Featured tiles use stronger archival art but retain the same readability envelope. */
 body:has(.nav-parent.active[href="./battlezone.html"]) .project-card.featured,
 body:has(.nav-parent.active[href="./battlezone.html"]) .category-card.featured {
+  --bz-card-art: url("./assets/decor/battle800x600.png");
   background:
-    linear-gradient(145deg, rgba(17,31,18,.90), rgba(7,12,8,.975) 72%),
-    url("./assets/decor/battle800x600.png") center / cover no-repeat;
+    linear-gradient(145deg, rgba(17,31,18,.89), rgba(7,12,8,.972) 72%),
+    var(--bz-card-art) var(--bz-card-pos) / cover no-repeat;
 }
 body:has(.nav-parent.active[href="./battlezone.html"]) .content-body > .panel {
   background:
