@@ -1,20 +1,24 @@
-name: Capture Missing Tool UIs
+name: Capture Battlezone Tool UIs
 
 on:
   pull_request:
     branches: [main]
+    paths-ignore:
+      - 'assets/toolshots/**'
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   capture:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
-      - name: Checkout site branch
+      - name: Checkout screenshot branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -24,26 +28,39 @@ jobs:
       - name: Install desktop capture dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y xvfb x11-utils wmctrl imagemagick python3-tk
+          sudo apt-get install -y xvfb x11-utils imagemagick python3-tk ffmpeg libsndfile1
           python -m pip install --upgrade pip
+          python -m pip install customtkinter Pillow numpy scipy imageio soundfile requests qrcode keyring pypresence pystray websocket-client tkinterdnd2 deep-translator pycdlib
 
       - name: Clone tool repositories
         run: |
-          mkdir -p tool-src captures
+          mkdir -p tool-src captures assets/toolshots
           git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98Redux_WorldBuilder.git tool-src/world-builder
           git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98Redux_HeightmapGen.git tool-src/heightmap-generator
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98Redux_TextureManager.git tool-src/texture-manager
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98Redux_AudioTool.git tool-src/bzradio
           git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98Redux_LocalizationTool.git tool-src/localization-tool
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98ReduxFontGenerator.git tool-src/font-generator
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98Redux_HoloTextGen.git tool-src/holotextgen
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98Redux_WorkshopUploader.git tool-src/workshop-uploader
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone_ModEngine.git tool-src/mod-engine
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone_LobbyMonitor.git tool-src/lobby-monitor
           git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98Redux_BZN_Scanner.git tool-src/bzn-scanner
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone98Redux_ZFSSpecialist.git tool-src/zfs-specialist
           git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone_PSPExtractor.git tool-src/psp-extractor
+          git clone --depth 1 https://github.com/GrizzlyOne95/Battlezone_Gold_Extractor.git tool-src/gold-extractor
 
-      - name: Install tool dependencies
+      - name: Install repository requirements
+        shell: bash
         run: |
-          python -m pip install -r tool-src/world-builder/requirements.txt
-          python -m pip install -r tool-src/heightmap-generator/requirements.txt
-          python -m pip install -r tool-src/localization-tool/requirements.txt
-          python -m pip install -r tool-src/psp-extractor/requirements.txt
+          set +e
+          for req in tool-src/*/requirements.txt; do
+            echo "=== $req ==="
+            python -m pip install -r "$req"
+          done
+          exit 0
 
-      - name: Launch and capture tool windows
+      - name: Launch and capture all tool windows
         shell: bash
         run: |
           set -u
@@ -51,6 +68,14 @@ jobs:
           XVFB_PID=$!
           export DISPLAY=:99
           sleep 2
+
+          cat > /tmp/run-font.py <<'PY'
+          import ctypes, runpy, types
+          ctypes.windll = types.SimpleNamespace(
+              gdi32=types.SimpleNamespace(AddFontResourceExW=lambda *args: 0)
+          )
+          runpy.run_path('bz_generator.py', run_name='__main__')
+          PY
 
           capture_app() {
             local slug="$1"
@@ -63,9 +88,9 @@ jobs:
             popd >/dev/null
 
             local wid=""
-            for i in $(seq 1 20); do
+            for i in $(seq 1 25); do
               sleep 1
-              wid=$(wmctrl -l | awk 'NR==1 {print $1}')
+              wid=$(xwininfo -root -tree 2>/dev/null | awk '/0x[0-9a-f]+ "[^"]+"/ {print $1; exit}')
               if [ -n "$wid" ]; then
                 break
               fi
@@ -78,48 +103,81 @@ jobs:
 
             if [ -z "$wid" ]; then
               echo "No X11 window found for ${slug}"
+              xwininfo -root -tree 2>/dev/null || true
               cat "/tmp/${slug}.log" || true
               kill "$app_pid" 2>/dev/null || true
               return 1
             fi
 
             sleep 2
-            echo "Window: $(wmctrl -l | head -1)"
+            echo "Window ID: $wid"
+            xwininfo -id "$wid" 2>/dev/null | head -20 || true
             import -window "$wid" "${GITHUB_WORKSPACE}/captures/${slug}.png"
             identify "${GITHUB_WORKSPACE}/captures/${slug}.png" || true
             kill "$app_pid" 2>/dev/null || true
             wait "$app_pid" 2>/dev/null || true
-            sleep 1
+
+            for i in $(seq 1 8); do
+              if ! xwininfo -id "$wid" >/dev/null 2>&1; then break; fi
+              sleep 0.25
+            done
           }
 
           capture_app world-builder "$GITHUB_WORKSPACE/tool-src/world-builder" python world_builder.py || true
           capture_app heightmap-generator "$GITHUB_WORKSPACE/tool-src/heightmap-generator" python heightmap_generator.py --gui || true
+          capture_app texture-manager "$GITHUB_WORKSPACE/tool-src/texture-manager" python src/tex_man.py || true
+          capture_app bzradio "$GITHUB_WORKSPACE/tool-src/bzradio" python audio.py || true
           capture_app localization-tool "$GITHUB_WORKSPACE/tool-src/localization-tool" python localization.py || true
+          capture_app font-generator "$GITHUB_WORKSPACE/tool-src/font-generator" python /tmp/run-font.py || true
+          capture_app holotextgen "$GITHUB_WORKSPACE/tool-src/holotextgen" python hud_gen.py || true
+          capture_app workshop-uploader "$GITHUB_WORKSPACE/tool-src/workshop-uploader" python uploader.py || true
+          capture_app mod-engine "$GITHUB_WORKSPACE/tool-src/mod-engine" python cmd.py || true
+          capture_app lobby-monitor "$GITHUB_WORKSPACE/tool-src/lobby-monitor" python bzr_monitor.py || true
           capture_app bzn-scanner "$GITHUB_WORKSPACE/tool-src/bzn-scanner" python bzn_scan.py || true
+          capture_app zfs-specialist "$GITHUB_WORKSPACE/tool-src/zfs-specialist" python src/unzfs.py || true
           capture_app psp-extractor "$GITHUB_WORKSPACE/tool-src/psp-extractor" python app/bzpsp_gui.py || true
+          capture_app gold-extractor "$GITHUB_WORKSPACE/tool-src/gold-extractor" python tools/bzg-extractor-ui.py || true
 
           kill "$XVFB_PID" 2>/dev/null || true
 
           echo "=== Captures ==="
           ls -lh captures || true
-          echo "=== Logs ==="
-          for f in /tmp/world-builder.log /tmp/heightmap-generator.log /tmp/localization-tool.log /tmp/bzn-scanner.log /tmp/psp-extractor.log; do
+          echo "=== App logs ==="
+          for f in /tmp/world-builder.log /tmp/heightmap-generator.log /tmp/texture-manager.log /tmp/bzradio.log /tmp/localization-tool.log /tmp/font-generator.log /tmp/holotextgen.log /tmp/workshop-uploader.log /tmp/mod-engine.log /tmp/lobby-monitor.log /tmp/bzn-scanner.log /tmp/zfs-specialist.log /tmp/psp-extractor.log /tmp/gold-extractor.log; do
             echo "--- $f ---"
             cat "$f" 2>/dev/null || true
           done
 
-      - name: Require all five captures
+      - name: Require all fourteen captures
         run: |
-          test -s captures/world-builder.png
-          test -s captures/heightmap-generator.png
-          test -s captures/localization-tool.png
-          test -s captures/bzn-scanner.png
-          test -s captures/psp-extractor.png
+          for slug in \
+            world-builder heightmap-generator texture-manager bzradio localization-tool \
+            font-generator holotextgen workshop-uploader mod-engine lobby-monitor \
+            bzn-scanner zfs-specialist psp-extractor gold-extractor; do
+            test -s "captures/${slug}.png" || { echo "Missing capture: ${slug}"; exit 1; }
+          done
 
-      - name: Upload captures
+      - name: Stage runtime captures
+        run: |
+          cp captures/*.png assets/toolshots/
+          identify assets/toolshots/*.png
+
+      - name: Commit captures to screenshot branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/toolshots/*.png
+          if git diff --cached --quiet; then
+            echo "No capture changes to commit."
+            exit 0
+          fi
+          git commit -m "assets: add Battlezone tool runtime screenshots"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+
+      - name: Upload capture artifact
         uses: actions/upload-artifact@v4
         with:
-          name: missing-tool-runtime-captures
+          name: battlezone-tool-runtime-captures
           path: captures/*.png
           if-no-files-found: error
           retention-days: 2
