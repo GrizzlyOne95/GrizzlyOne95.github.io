@@ -16,6 +16,11 @@
     return;
   }
 
+  const blackDogIds = new Set(['3476765858', '2973893698', '3522108622', '3245077113']);
+  if (blackDogIds.has(item.id) || /black dog/i.test(item.title)) {
+    document.body.classList.add('theme-blackdog');
+  }
+
   const extra = (typeof modDetails !== 'undefined' && modDetails[id]) ? modDetails[id] : {};
   const summary = item.desc || `A Battlezone 98 Redux Workshop release by GrizzlyOne95 in the ${item.group} category.`;
   const steamUrl = `https://steamcommunity.com/sharedfiles/filedetails/?id=${item.id}`;
