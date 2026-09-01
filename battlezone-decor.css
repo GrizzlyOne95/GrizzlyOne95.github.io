@@ -111,11 +111,17 @@ body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar > * {
   max-width: 56%;
 }
 
+/* Archival texture is reserved for high-value emphasis surfaces rather than every card. */
 body:has(.nav-parent.active[href="./battlezone.html"]) .project-card.featured,
 body:has(.nav-parent.active[href="./battlezone.html"]) .category-card.featured {
   background:
-    linear-gradient(145deg, rgba(17,31,18,.91), rgba(7,12,8,.975) 72%),
-    url("./assets/decor/highres-combat.jpg") center / cover no-repeat;
+    linear-gradient(145deg, rgba(17,31,18,.90), rgba(7,12,8,.975) 72%),
+    url("./assets/decor/battle800x600.png") center / cover no-repeat;
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) .content-body > .panel {
+  background:
+    linear-gradient(90deg, rgba(7,14,9,.965), rgba(8,13,9,.985)),
+    url("./assets/decor/bztemp.bmp") center / cover no-repeat;
 }
 
 body:has(.nav-parent.active[href="./battlezone.html"]) .lede,
@@ -126,13 +132,142 @@ body:has(.nav-parent.active[href="./battlezone.html"]) .creator-note {
   border-left-color: #8be85d;
 }
 
+/* Old Battlezone frame art as a very light HUD overlay on key emphasis surfaces. */
+body:has(.nav-parent.active[href="./battlezone.html"]) :is(.lede, .workshop-summary, .mod-detail-hero) {
+  position: relative;
+  overflow: hidden;
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) :is(.lede, .workshop-summary, .mod-detail-hero)::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  z-index: 4;
+  pointer-events: none;
+  background: url("./assets/decor/BZframe.png") center / 100% 100% no-repeat;
+  opacity: .12;
+  mix-blend-mode: screen;
+}
+
+/* Section markers use the full logo as a small shell-style identifier. */
 body:has(.nav-parent.active[href="./battlezone.html"]) .section-rule::before {
   content: "";
-  width: 16px;
-  height: 16px;
-  flex: 0 0 16px;
-  background: url("./assets/decor/bzlogo.png") center / contain no-repeat;
-  opacity: .76;
+  width: 34px;
+  height: 15px;
+  flex: 0 0 34px;
+  background: url("./assets/decor/bzlogofull.png") center / contain no-repeat;
+  opacity: .68;
+  filter: drop-shadow(0 0 5px rgba(116,255,116,.12));
+}
+
+/* HUD acquisition corners appear when cards are actionable/hovered. */
+body:has(.nav-parent.active[href="./battlezone.html"]) :is(.project-card, .mod-card, .collection-card) {
+  position: relative;
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) :is(.project-card, .mod-card, .collection-card)::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  z-index: 8;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .14s ease;
+  background:
+    linear-gradient(#a7e46d,#a7e46d) left top / 18px 1px no-repeat,
+    linear-gradient(#a7e46d,#a7e46d) left top / 1px 18px no-repeat,
+    linear-gradient(#a7e46d,#a7e46d) right top / 18px 1px no-repeat,
+    linear-gradient(#a7e46d,#a7e46d) right top / 1px 18px no-repeat,
+    linear-gradient(#a7e46d,#a7e46d) left bottom / 18px 1px no-repeat,
+    linear-gradient(#a7e46d,#a7e46d) left bottom / 1px 18px no-repeat,
+    linear-gradient(#a7e46d,#a7e46d) right bottom / 18px 1px no-repeat,
+    linear-gradient(#a7e46d,#a7e46d) right bottom / 1px 18px no-repeat;
+  filter: drop-shadow(0 0 3px rgba(139,232,93,.18));
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) :is(.project-card, .mod-card, .collection-card):hover::before,
+body:has(.nav-parent.active[href="./battlezone.html"]) :is(.project-card, .mod-card, .collection-card):focus-within::before {
+  opacity: .88;
+}
+
+/* Black Dog releases get a restrained faction watermark instead of the generic BZ mark. */
+body:has(.nav-parent.active[href="./battlezone.html"]) :is(
+  .mod-card[data-mod-id="3476765858"],
+  .mod-card[data-mod-id="2973893698"],
+  .mod-card[data-mod-id="3522108622"],
+  .mod-card[data-mod-id="3245077113"],
+  .collection-card[href*="3538255964"]
+)::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  bottom: 48px;
+  width: 78px;
+  height: 78px;
+  z-index: 1;
+  pointer-events: none;
+  background: url("./assets/decor/BdogLogoHD2.png") center / contain no-repeat;
+  opacity: .09;
+  filter: grayscale(.15) drop-shadow(0 0 8px rgba(180,210,160,.08));
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) :is(.mod-card, .collection-card) > * {
+  position: relative;
+  z-index: 2;
+}
+
+body.theme-blackdog:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar::before {
+  background-image: url("./assets/decor/BdogLogoHD2.png");
+  width: clamp(150px, 23vw, 220px);
+  opacity: .20;
+  filter: grayscale(.10) drop-shadow(0 0 14px rgba(210,235,190,.08));
+}
+body.theme-blackdog:has(.nav-parent.active[href="./battlezone.html"]) .mod-detail-hero {
+  background:
+    linear-gradient(145deg, rgba(22,27,21,.92), rgba(6,10,7,.985) 74%),
+    url("./assets/decor/BlackDog-BasedOffOriginal.png") 86% center / 42% auto no-repeat;
+}
+
+/* Bottom status reads like a subdued telemetry rail instead of a plain divider. */
+body:has(.nav-parent.active[href="./battlezone.html"]) .status-line {
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  margin-top: 30px;
+  padding: 10px 13px 10px 26px;
+  border: 1px solid #27372c;
+  background:
+    linear-gradient(90deg, rgba(15,25,16,.96), rgba(7,12,8,.98)),
+    repeating-linear-gradient(90deg, transparent 0 52px, rgba(157,204,88,.035) 53px);
+  box-shadow: inset 0 1px rgba(255,255,255,.02);
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) .status-line::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: #9dcc58;
+  box-shadow: 0 0 7px rgba(157,204,88,.55);
+  animation: bz-status-pulse 2.8s ease-in-out infinite;
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) .status-line::after {
+  content: "";
+  position: absolute;
+  right: 11px;
+  top: 4px;
+  width: 54px;
+  height: 3px;
+  background: repeating-linear-gradient(90deg, rgba(157,204,88,.38) 0 5px, transparent 5px 9px);
+  opacity: .45;
+}
+
+@keyframes bz-status-pulse {
+  0%, 100% { opacity: .48; transform: translateY(-50%) scale(.86); }
+  50% { opacity: 1; transform: translateY(-50%) scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(.nav-parent.active[href="./battlezone.html"]) .status-line::before { animation: none; }
 }
 
 @media (max-width: 860px) {
@@ -154,4 +289,6 @@ body:has(.nav-parent.active[href="./battlezone.html"]) .section-rule::before {
     opacity: .17;
   }
   body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar > * { max-width: 68%; }
+  body:has(.nav-parent.active[href="./battlezone.html"]) :is(.project-card, .mod-card, .collection-card)::before { inset: 4px; }
+  body:has(.nav-parent.active[href="./battlezone.html"]) .status-line { padding-left: 23px; }
 }
