@@ -1,3 +1,5 @@
+@import url("./battlezone-decor.css");
+
 .tool-intro { margin-bottom: 26px; }
 .tool-summary { margin: 0; color: #b7c1b4; font-size: 1.02rem; }
 .tool-actions,
