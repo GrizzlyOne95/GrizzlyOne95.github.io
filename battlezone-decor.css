@@ -3,7 +3,7 @@
 
 @font-face {
   font-family: "BZONE";
-  src: local("BZONE"), local("Battlezone"), url("./assets/fonts/BZONE.ttf") format("truetype");
+  src: local("BZONE"), local("Battlezone"), url("./assets/decor/BZONE.ttf") format("truetype");
   font-display: swap;
 }
 
@@ -41,7 +41,7 @@ body:has(.nav-parent.active[href="./battlezone.html"]) .side-logo::before {
   width: 78px;
   height: 74px;
   transform: translateX(-50%);
-  background: url("./assets/decor/grizzly-circle.png") center / contain no-repeat;
+  background: url("./assets/decor/GrizzlyCircle.png") center / contain no-repeat;
   filter: drop-shadow(0 0 12px rgba(157,204,88,.18));
 }
 
@@ -105,14 +105,22 @@ body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar::before {
 }
 body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar > * { position: relative; z-index: 1; }
 
-body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-home-titlebar::before {
-  right: 225px;
-  top: 8px;
-  width: 124px;
-  height: calc(100% - 16px);
-  background: url("./assets/decor/grizzly-circle.png") center / contain no-repeat;
-  opacity: .98;
-  filter: drop-shadow(0 0 11px rgba(120,255,106,.18));
+body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-title-row {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  width: fit-content;
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-title-row h1 {
+  flex: 0 1 auto;
+}
+body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-title-emblem {
+  flex: 0 0 auto;
+  width: 92px;
+  height: 92px;
+  margin: -24px 0 -23px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 11px rgba(120,255,106,.20));
 }
 
 body:has(.nav-parent.active[href="./battlezone.html"]) .project-card.featured,
@@ -142,27 +150,22 @@ body:has(.nav-parent.active[href="./battlezone.html"]) .section-rule::before {
 @media (max-width: 860px) {
   body:has(.nav-parent.active[href="./battlezone.html"]) { background-position: center top; background-attachment: scroll; }
   body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar::before { right: 12px; opacity: .10; }
-  body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-home-titlebar {
-    padding-right: 138px;
-  }
-  body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-home-titlebar::before {
-    right: 16px;
-    width: 102px;
-    opacity: .96;
+  body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-title-emblem {
+    width: 82px;
+    height: 82px;
+    margin-top: -20px;
+    margin-bottom: -20px;
   }
 }
 
 @media (max-width: 660px) {
   body:has(.nav-parent.active[href="./battlezone.html"]) .hero-banner { padding: 10px 11px; }
   body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar::before { width: 84px; }
-  body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-home-titlebar {
-    min-height: 126px;
-    padding-right: 108px;
-  }
-  body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-home-titlebar::before {
-    right: 12px;
-    top: 14px;
-    width: 76px;
-    height: calc(100% - 28px);
+  body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-title-row { gap: 12px; }
+  body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-title-emblem {
+    width: 64px;
+    height: 64px;
+    margin-top: -13px;
+    margin-bottom: -13px;
   }
 }
