@@ -1,5 +1,5 @@
 (() => {
-  const files = [
+  const fallbackFiles = [
     'AMAS3.jpg',
     'Acrobat_DGZT963mte.png',
     'Acrobat_TOgmxaKPQD.png',
@@ -58,20 +58,23 @@
     'truman_lg_recycler.jpg'
   ];
 
+  const imagePattern = /\.(?:jpe?g|png|webp|gif|bmp)$/i;
   const root = document.getElementById('media-slideshow');
   const image = document.getElementById('media-slide-image');
   const caption = document.getElementById('media-slide-caption');
   const counter = document.getElementById('media-slide-counter');
+  const galleryCount = document.getElementById('media-gallery-count');
   const filmstrip = document.getElementById('media-filmstrip');
   const previous = document.getElementById('media-slide-prev');
   const next = document.getElementById('media-slide-next');
   const playToggle = document.getElementById('media-slide-play');
 
-  if (!root || !image || !caption || !counter || !filmstrip || !previous || !next || !playToggle || !files.length) return;
+  if (!root || !image || !caption || !counter || !filmstrip || !previous || !next || !playToggle) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const failed = new Set();
-  let index = Math.max(0, files.indexOf('HighresScreenshot00005.png'));
+  let files = [...fallbackFiles];
+  let index = 0;
   let autoplay = !prefersReducedMotion;
   let timer = null;
 
@@ -86,6 +89,23 @@
 
   const normalize = value => (value + files.length) % files.length;
 
+  const discoverFiles = async () => {
+    try {
+      const response = await fetch('https://api.github.com/repos/GrizzlyOne95/GrizzlyOne95.github.io/contents/assets/media?ref=main', {
+        headers: { Accept: 'application/vnd.github+json' }
+      });
+      if (!response.ok) return;
+      const entries = await response.json();
+      const discovered = entries
+        .filter(entry => entry.type === 'file' && imagePattern.test(entry.name))
+        .map(entry => entry.name)
+        .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+      if (discovered.length) files = discovered;
+    } catch (_) {
+      // The checked-in list above keeps the gallery functional if GitHub's API is unavailable.
+    }
+  };
+
   const schedule = () => {
     window.clearTimeout(timer);
     if (!autoplay) return;
@@ -93,6 +113,7 @@
   };
 
   const preloadNeighbors = () => {
+    if (files.length < 2) return;
     [-1, 1].forEach(offset => {
       const preload = new Image();
       preload.src = sourceFor(files[normalize(index + offset)]);
@@ -101,17 +122,19 @@
 
   const renderFilmstrip = () => {
     filmstrip.replaceChildren();
-    const offsets = [-2, -1, 0, 1, 2];
+    const offsets = files.length < 5
+      ? Array.from({ length: files.length }, (_, itemIndex) => itemIndex - index)
+      : [-2, -1, 0, 1, 2];
 
     offsets.forEach(offset => {
       const itemIndex = normalize(index + offset);
       const file = files[itemIndex];
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = `media-filmstrip-item${offset === 0 ? ' active' : ''}`;
+      button.className = `media-filmstrip-item${itemIndex === index ? ' active' : ''}`;
       button.dataset.index = String(itemIndex);
       button.setAttribute('aria-label', `Show ${prettyName(file)}`);
-      button.setAttribute('aria-current', offset === 0 ? 'true' : 'false');
+      button.setAttribute('aria-current', itemIndex === index ? 'true' : 'false');
 
       const thumb = document.createElement('img');
       thumb.loading = 'lazy';
@@ -122,6 +145,7 @@
 
       button.addEventListener('click', () => {
         index = itemIndex;
+        autoplay = false;
         render();
       });
       filmstrip.appendChild(button);
@@ -129,11 +153,13 @@
   };
 
   const render = () => {
+    if (!files.length) return;
     const file = files[index];
     image.src = sourceFor(file);
     image.alt = prettyName(file);
     caption.textContent = prettyName(file);
     counter.textContent = `${index + 1} / ${files.length}`;
+    if (galleryCount) galleryCount.textContent = `// ${files.length} LOCAL IMAGES`;
     playToggle.textContent = autoplay ? 'Pause' : 'Play';
     playToggle.setAttribute('aria-pressed', autoplay ? 'true' : 'false');
     renderFilmstrip();
@@ -142,6 +168,7 @@
   };
 
   const move = (delta, userInitiated = true) => {
+    if (!files.length) return;
     let attempts = 0;
     do {
       index = normalize(index + delta);
@@ -183,5 +210,9 @@
     else schedule();
   });
 
-  render();
+  (async () => {
+    await discoverFiles();
+    index = Math.max(0, files.indexOf('HighresScreenshot00005.png'));
+    render();
+  })();
 })();
