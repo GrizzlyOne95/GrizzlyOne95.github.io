@@ -13,7 +13,6 @@ const groups=[
 ]},
 {title:'Campaigns & Missions',code:'// PLAYABLE CONTENT',items:[
 {id:'3494851869',title:'Chinese Mission Pack: Remastered',badge:'Campaign',image:'https://images.steamusercontent.com/ugc/15492178853704532904/1F9C9080B65DF3936BD5BC89AC68EE93F71C586E/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
-{id:'3456499092',title:'DoomZone',badge:'Crossover mission',image:'https://images.steamusercontent.com/ugc/14337907855264515186/4F2FBAD121BA445240DE0E0C7F9080DFBD60BDC8/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
 {id:'3260784999',title:'Elite Corps: Campaign',badge:'Campaign',image:'https://images.steamusercontent.com/ugc/2464111110641957513/49CBDFA4AC684383C6286C7D1BD2DA5509CE3069/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
 {id:'3254983304',title:'Last Of The Galilean: Campaign',badge:'Campaign',image:'https://images.steamusercontent.com/ugc/2467489530648279406/4CD2E3D9C606FFBCFE08987A0FFC2176D8F5D315/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
 {id:'3252534193',title:'The Shrieking Eagles Missions',badge:'Mission pack',image:'https://images.steamusercontent.com/ugc/2462984668471591166/96CAFC394100E2158307BFF1D205E2095CB6E311/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
@@ -27,10 +26,6 @@ const groups=[
 ]},
 {title:'Mods, Visual, UI, Audio & Models',code:'// MODS + ENHANCEMENTS',items:[
 {id:'3304321806',title:'BZToo: Demo Mod',badge:'Preservation',image:'https://images.steamusercontent.com/ugc/2483257751327453443/E7EB834A3EC6037FEF7808D84B21AE39A76AEE1F/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
-{id:'3650896096',title:'CyberZone: Animated HUD',badge:'HUD',image:'https://images.steamusercontent.com/ugc/16529477284254367737/EC5264FDC9ECE4CED7CFCBD96E23224A594F97DF/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
-{id:'3650892552',title:'CyberZone: Full Reskin',badge:'Textures',image:'https://images.steamusercontent.com/ugc/15484090093650334108/B004C99CB0DE2FA6C125BDD4712B63720585FA55/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
-{id:'3650890928',title:'CyberZone: New Font',badge:'UI font',image:'https://images.steamusercontent.com/ugc/15127946674558954781/4FE123A027EEAB309387388E6245378FF6311F34/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
-{id:'3650876719',title:'CyberZone: Soundtrack',badge:'Audio',image:'https://images.steamusercontent.com/ugc/11760492965806432797/EE85AA3C6DFF983646343422024EA05E1BBA5842/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
 {id:'3522108622',title:'Rise of the Black Dogs: N64 Models',badge:'Model pack',image:'https://images.steamusercontent.com/ugc/17449715529993446318/29F456A37E9D32A5B5F50C908386E8A423F801DB/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
 {id:'3471131954',title:'Fixed Headlights',badge:'Visual fix',image:'https://images.steamusercontent.com/ugc/33323018029334711/5AA1DB738AC997B1F021DDD300DB0FF85E4FFB41/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
 {id:'3375799194',title:'NSDF Red Devil',badge:'Skin',image:'https://images.steamusercontent.com/ugc/33309703775579574/6AEED0B4B3DBAB045F432883965DAE85B0816230/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
@@ -47,9 +42,14 @@ const groups=[
 {id:'3125420768',title:'Nightingale: Fixed Redux Model',badge:'Model fix',image:'https://images.steamusercontent.com/ugc/2264812881894000954/A569C546FAC82ED1103A91683C787BDA512F0A65/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
 {id:'3122655486',title:'Sniper Bullet Effects',badge:'Weapon effects',image:'https://images.steamusercontent.com/ugc/2264812245442467732/11D0A1031DF1CA06F6C4FFCED3F04DBE66CEEB61/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'}
 ]},
-{title:'Multiplayer & Archive',code:'// OTHER RELEASES',items:[
+{title:'Multiplayer / Experimental / Crossovers',code:'// MP + EXPERIMENTAL + CROSSOVERS',items:[
 {id:'3383347069',title:'Battlezone 98 Redux/PSP Custom DM mode',badge:'Deathmatch',image:'https://images.steamusercontent.com/ugc/33311145853151657/E61EF195B106E0A09CE2EA7D8D1BD476F539D606/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
-{id:'1226347897',title:'Cliffhanger Snipers',badge:'Multiplayer deathmatch',image:'https://images.steamusercontent.com/ugc/874126637033929679/A7760DE5222A3C6D32E933C7AFE0501E3E6CC8B7/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'}
+{id:'1226347897',title:'Cliffhanger Snipers',badge:'Multiplayer deathmatch',image:'https://images.steamusercontent.com/ugc/874126637033929679/A7760DE5222A3C6D32E933C7AFE0501E3E6CC8B7/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3456499092',title:'DoomZone',badge:'Crossover mission',image:'https://images.steamusercontent.com/ugc/14337907855264515186/4F2FBAD121BA445240DE0E0C7F9080DFBD60BDC8/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3650896096',title:'CyberZone: Animated HUD',badge:'Crossover HUD',image:'https://images.steamusercontent.com/ugc/16529477284254367737/EC5264FDC9ECE4CED7CFCBD96E23224A594F97DF/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3650892552',title:'CyberZone: Full Reskin',badge:'Crossover textures',image:'https://images.steamusercontent.com/ugc/15484090093650334108/B004C99CB0DE2FA6C125BDD4712B63720585FA55/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3650890928',title:'CyberZone: New Font',badge:'Crossover UI font',image:'https://images.steamusercontent.com/ugc/15127946674558954781/4FE123A027EEAB309387388E6245378FF6311F34/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'},
+{id:'3650876719',title:'CyberZone: Soundtrack',badge:'Crossover audio',image:'https://images.steamusercontent.com/ugc/11760492965806432797/EE85AA3C6DFF983646343422024EA05E1BBA5842/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'}
 ]}
 ];
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
