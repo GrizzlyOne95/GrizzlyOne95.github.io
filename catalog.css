@@ -168,7 +168,14 @@
   text-transform: uppercase;
   text-shadow: 0 0 18px rgba(157,204,88,.17);
 }
-.mod-copy { padding: 13px 14px 15px; display: flex; flex: 1; flex-direction: column; }
+.mod-copy {
+  padding: 13px 14px 15px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
 .mod-badge {
   margin-bottom: 6px;
   color: #7f9e66;
