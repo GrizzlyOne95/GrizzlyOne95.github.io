@@ -52,7 +52,7 @@ const groups=[
 {id:'1226347897',title:'Cliffhanger Snipers',badge:'Multiplayer deathmatch',image:'https://images.steamusercontent.com/ugc/874126637033929679/A7760DE5222A3C6D32E933C7AFE0501E3E6CC8B7/?ima=fit&imcolor=%23000000&imh=268&impolicy=Letterbox&imw=268&letterbox=true'}
 ]}
 ];
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function thumb(item){if(!item.image)return `<div class="mod-thumb fallback"><span>${esc(item.title)}</span></div>`;return `<div class="mod-thumb"><img loading="lazy" src="${esc(item.image)}" alt="${esc(item.title)}"></div>`;}
 function wireFallbacks(root){root.querySelectorAll('.mod-thumb img,.collection-thumb img').forEach(img=>img.addEventListener('error',()=>{const box=img.parentElement;box.classList.add('fallback');box.innerHTML=`<span>${esc(img.alt)}</span>`;}));}
 const croot=document.getElementById('collections-root');
