@@ -1,6 +1,12 @@
 /* Battlezone-only decorative layer.
    Scoped by the active Battlezone navigation item so About/Media/Other remain unchanged. */
 
+@font-face {
+  font-family: "BZONE";
+  src: local("BZONE"), local("Battlezone"), url("./assets/fonts/BZONE.ttf") format("truetype");
+  font-display: swap;
+}
+
 body:has(.nav-parent.active[href="./battlezone.html"]) {
   background:
     linear-gradient(180deg, rgba(3,6,4,.70), rgba(3,6,4,.94) 44rem, #030504 100%),
@@ -12,6 +18,11 @@ body:has(.nav-parent.active[href="./battlezone.html"]) {
 body:has(.nav-parent.active[href="./battlezone.html"]) .content-shell {
   border-color: #344639;
   background: linear-gradient(180deg, rgba(14,20,16,.965), rgba(6,9,7,.987));
+}
+
+body:has(.nav-parent.active[href="./battlezone.html"]) .content-shell :is(h1, h2, h3) {
+  font-family: "BZONE", "Arial Narrow", "Segoe UI", sans-serif;
+  font-weight: 400;
 }
 
 body:has(.nav-parent.active[href="./battlezone.html"]) .side-logo {
@@ -94,6 +105,16 @@ body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar::before {
 }
 body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar > * { position: relative; z-index: 1; }
 
+body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-home-titlebar::before {
+  right: 225px;
+  top: 8px;
+  width: 124px;
+  height: calc(100% - 16px);
+  background: url("./assets/decor/grizzly-circle.png") center / contain no-repeat;
+  opacity: .98;
+  filter: drop-shadow(0 0 11px rgba(120,255,106,.18));
+}
+
 body:has(.nav-parent.active[href="./battlezone.html"]) .project-card.featured,
 body:has(.nav-parent.active[href="./battlezone.html"]) .category-card.featured {
   background:
@@ -121,9 +142,27 @@ body:has(.nav-parent.active[href="./battlezone.html"]) .section-rule::before {
 @media (max-width: 860px) {
   body:has(.nav-parent.active[href="./battlezone.html"]) { background-position: center top; background-attachment: scroll; }
   body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar::before { right: 12px; opacity: .10; }
+  body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-home-titlebar {
+    padding-right: 138px;
+  }
+  body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-home-titlebar::before {
+    right: 16px;
+    width: 102px;
+    opacity: .96;
+  }
 }
 
 @media (max-width: 660px) {
   body:has(.nav-parent.active[href="./battlezone.html"]) .hero-banner { padding: 10px 11px; }
   body:has(.nav-parent.active[href="./battlezone.html"]) .page-titlebar::before { width: 84px; }
+  body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-home-titlebar {
+    min-height: 126px;
+    padding-right: 108px;
+  }
+  body:has(.nav-parent.active[href="./battlezone.html"]) .battlezone-home-titlebar::before {
+    right: 12px;
+    top: 14px;
+    width: 76px;
+    height: calc(100% - 28px);
+  }
 }
