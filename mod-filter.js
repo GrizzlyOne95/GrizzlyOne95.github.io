@@ -69,4 +69,8 @@
 
   input.addEventListener('input', apply);
   apply();
+
+  const liveScript = document.createElement('script');
+  liveScript.src = './sidebar-live.js';
+  document.head.appendChild(liveScript);
 })();
