@@ -5,9 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090d0a">
   <meta name="description" content="Battlezone tools by GrizzlyOne95 for authoring, Blender, assets, terrain, localization, publishing, multiplayer, archives, extraction, and legacy game workflows.">
+  <link rel="canonical" href="https://grizzlyone95.github.io/battlezone-tools.html">
+  <link rel="icon" type="image/png" href="./assets/decor/GrizzlyCircle.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GrizzlyOne95">
+  <meta property="og:title" content="GrizzlyOne95 // Battlezone Tools">
+  <meta property="og:description" content="Standalone Battlezone modding tools for authoring, Blender, diagnostics, publishing, multiplayer, extraction, and legacy workflows.">
+  <meta property="og:url" content="https://grizzlyone95.github.io/battlezone-tools.html">
+  <meta property="og:image" content="https://grizzlyone95.github.io/assets/decor/HighresScreenshot00005.png">
+  <meta name="twitter:card" content="summary_large_image">
   <title>GrizzlyOne95 // Battlezone Tools</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./site-enhancements.css">
+  <link rel="stylesheet" href="./catalog-filter.css">
 </head>
 <body>
   <div class="site-frame">
@@ -19,6 +29,23 @@
       <div class="content-body">
         <p class="lede">Practical Battlezone utilities, Blender add-ons, and workflow tools. Runtime UI captures are shown directly on the catalog tiles where available so the tool list reads visually instead of like a wall of text.</p>
         <nav class="anchor-tabs" aria-label="Battlezone navigation"><a href="./battlezone.html">Overview</a><a href="./battlezone-projects.html">Projects</a><a href="./battlezone-mods.html">Mods</a><a class="active-tab" href="./battlezone-tools.html">Tools</a><a href="./battlezone-gallery.html">Gallery</a><a href="./battlezone-live.html">Live Games</a></nav>
+
+        <section class="catalog-filter" id="tool-filter" aria-label="Filter Battlezone tools">
+          <div class="catalog-filter-row">
+            <input class="catalog-search" id="tool-search" type="search" autocomplete="off" aria-label="Search Battlezone tools" placeholder="Search tools…">
+            <div class="catalog-filter-buttons" role="group" aria-label="Tool category">
+              <button class="catalog-filter-button is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+              <button class="catalog-filter-button" type="button" data-filter="authoring" aria-pressed="false">Authoring</button>
+              <button class="catalog-filter-button" type="button" data-filter="blender" aria-pressed="false">Blender</button>
+              <button class="catalog-filter-button" type="button" data-filter="publishing" aria-pressed="false">Publishing</button>
+              <button class="catalog-filter-button" type="button" data-filter="multiplayer" aria-pressed="false">Multiplayer</button>
+              <button class="catalog-filter-button" type="button" data-filter="diagnostics" aria-pressed="false">Diagnostics</button>
+              <button class="catalog-filter-button" type="button" data-filter="legacy" aria-pressed="false">Legacy</button>
+            </div>
+          </div>
+          <div class="catalog-filter-status"><span id="tool-filter-status">Showing 20 of 20 tools</span><span>// CLIENT-SIDE FILTER</span></div>
+        </section>
+        <div class="catalog-empty" id="tool-filter-empty">No tools match the current search/filter.</div>
 
         <div class="section-rule"><h2>Authoring, Assets & Blender</h2><span class="code">// CREATE</span></div>
         <div class="grid-2">
@@ -60,5 +87,6 @@
       </div>
     </main>
   </div>
+  <script src="./tool-filter.js"></script>
 </body>
 </html>
