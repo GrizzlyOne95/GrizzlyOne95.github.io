@@ -46,6 +46,67 @@
 }
 .platform-icon svg { width: 18px; height: 18px; fill: currentColor; }
 .profile-link .platform-head .network { margin: 0; }
+
+/* Profile cards use restrained monochrome brand marks like powered console identifiers. */
+.profile-link.has-brand-icon {
+  position: relative;
+  overflow: hidden;
+  padding-right: 58px;
+}
+.profile-brand-icon {
+  position: absolute;
+  z-index: 2;
+  top: 15px;
+  right: 17px;
+  width: 29px;
+  height: 29px;
+  color: #86aa5a;
+  opacity: .58;
+  filter: drop-shadow(0 0 5px rgba(157,204,88,.16));
+  transition: opacity .14s ease, color .14s ease, filter .14s ease, transform .14s ease;
+}
+.profile-link.has-brand-icon:hover .profile-brand-icon,
+.profile-link.has-brand-icon:focus-visible .profile-brand-icon {
+  color: #b7e56b;
+  opacity: .9;
+  filter: drop-shadow(0 0 8px rgba(157,204,88,.30));
+  transform: translateY(-1px);
+}
+.profile-link.has-brand-icon::before {
+  width: 43px;
+  height: 43px;
+  top: 8px;
+  right: 8px;
+  border-color: rgba(157,204,88,.10);
+}
+
+/* Battlezone gets its own local mark in the main Explore selector. */
+.explore-card {
+  position: relative;
+  overflow: hidden;
+}
+.explore-battlezone {
+  padding-right: 104px;
+}
+.explore-card-logo {
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  right: 21px;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  opacity: .25;
+  filter: saturate(.82) drop-shadow(0 0 8px rgba(157,204,88,.14));
+  transition: opacity .14s ease, filter .14s ease, transform .14s ease;
+}
+.explore-battlezone:hover .explore-card-logo,
+.explore-battlezone:focus-visible .explore-card-logo {
+  opacity: .5;
+  filter: saturate(1) drop-shadow(0 0 12px rgba(157,204,88,.24));
+  transform: scale(1.03);
+}
+
 .media-feature { margin: 20px 0 28px; border: 1px solid #344238; background: #080c09; overflow: hidden; }
 .media-feature iframe { display: block; width: 100%; aspect-ratio: 16/9; border: 0; background: #000; }
 .media-feature-copy { padding: 15px 18px; border-top: 1px solid #28352b; color: var(--muted); font-size: .84rem; }
@@ -198,6 +259,10 @@
   .tool-card-placeholder { height: 96px; }
   .platform-head { gap: 9px; }
   .platform-icon { width: 27px; height: 27px; flex-basis: 27px; }
+  .profile-link.has-brand-icon { padding-right: 54px; }
+  .profile-brand-icon { width: 25px; height: 25px; top: 14px; right: 15px; }
+  .explore-battlezone { padding-right: 82px; }
+  .explore-card-logo { width: 50px; height: 50px; right: 16px; }
   .media-slide-stage { min-height: 280px; }
   .media-slide-frame { height: 330px; padding: 12px 46px; }
   .media-slide-control { width: 34px; height: 54px; font-size: 1.35rem; }
@@ -211,5 +276,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .media-filmstrip-item,
-  .media-slide-control { transition: none; }
+  .media-slide-control,
+  .profile-brand-icon,
+  .explore-card-logo { transition: none; }
 }
