@@ -22,7 +22,7 @@
 
   const file = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
   const isToolDetail = /^tool-.+\.html$/.test(file);
-  const isModDetail = file === 'mod-detail.html';
+  const isModDetail = file === 'mod-detail.html' || /^mod-.+\.html$/.test(file);
   const isBattlezone = file.startsWith('battlezone') || isToolDetail || isModDetail;
 
   let primary = 'about';
@@ -83,6 +83,10 @@
 
   const liveLinks = [...document.querySelectorAll('.subnav a')].filter(link => (link.getAttribute('href') || '').endsWith('battlezone-live.html'));
   if (!liveLinks.length) return;
+
+  // The dedicated Live Games page already polls this API every five seconds;
+  // avoid a redundant second request loop there. Its sidebar remains active.
+  if (file === 'battlezone-live.html') return;
 
   let liveTimer = null;
   let livePolling = false;
