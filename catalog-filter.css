@@ -1,0 +1,107 @@
+/* Compact search/filter controls for long Battlezone catalogs. */
+.catalog-filter {
+  position: relative;
+  z-index: 3;
+  margin: 0 0 26px;
+  padding: 12px;
+  border: 1px solid #304034;
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 7px, rgba(157,204,88,.018) 8px, transparent 9px 13px),
+    linear-gradient(90deg, rgba(20,32,21,.96), rgba(8,13,9,.985));
+  box-shadow: inset 0 1px rgba(255,255,255,.025);
+}
+.catalog-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.catalog-search {
+  flex: 1 1 260px;
+  min-width: 180px;
+  height: 34px;
+  padding: 7px 10px;
+  border: 1px solid #3a4b3d;
+  outline: 0;
+  background: rgba(5,9,6,.94);
+  color: #d8e3d2;
+  font: .72rem Consolas, "Courier New", monospace;
+  letter-spacing: .035em;
+}
+.catalog-search::placeholder { color: #667568; }
+.catalog-search:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(157,204,88,.12), 0 0 12px rgba(157,204,88,.06);
+}
+.catalog-filter-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.catalog-filter-button {
+  min-height: 34px;
+  padding: 6px 9px;
+  border: 1px solid #344538;
+  background: #0c120d;
+  color: #91a094;
+  cursor: pointer;
+  font: 400 .66rem var(--display-font);
+  letter-spacing: .065em;
+  text-transform: uppercase;
+}
+.catalog-filter-button:hover,
+.catalog-filter-button:focus-visible {
+  border-color: #678455;
+  color: #d8e9b8;
+  outline: none;
+}
+.catalog-filter-button.is-active {
+  position: relative;
+  padding-left: 18px;
+  border-color: var(--accent);
+  color: #efffb0;
+  background: #162018;
+  box-shadow: inset 0 -1px rgba(157,204,88,.18);
+}
+.catalog-filter-button.is-active::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: #b7e56b;
+  box-shadow: 0 0 6px rgba(157,204,88,.5);
+}
+.catalog-filter-status {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  color: #667568;
+  font: .62rem Consolas, "Courier New", monospace;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+}
+.catalog-empty {
+  display: none;
+  margin: 18px 0;
+  padding: 16px;
+  border: 1px dashed #3b4b3e;
+  color: #879589;
+  background: rgba(7,12,8,.78);
+  text-align: center;
+  font-size: .82rem;
+}
+.catalog-empty.is-visible { display: block; }
+.catalog-filter-hidden { display: none !important; }
+
+@media (max-width: 660px) {
+  .catalog-filter { padding: 10px; }
+  .catalog-search { flex-basis: 100%; width: 100%; }
+  .catalog-filter-buttons { width: 100%; }
+  .catalog-filter-button { flex: 1 1 auto; }
+  .catalog-filter-status { flex-direction: column; gap: 2px; }
+}
