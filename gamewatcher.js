@@ -1,9 +1,10 @@
 (() => {
   'use strict';
 
-  // Keep this hostname stable even if the watcher moves between hosts.
+  // Tailscale Funnel hostname for the self-hosted watcher. Stable across reboots and
+  // service restarts, and it resolves to Tailscale's edge, never to a home IP.
   // Never replace it with a residential/public WAN IP in this public repository.
-  const API_BASE_URL = 'https://bz98gamewatcher.com';
+  const API_BASE_URL = 'https://bz1-gamewatcher.tail373def.ts.net';
   const NORMAL_POLL_MS = 5000;
   const HIDDEN_POLL_MS = 30000;
   const REQUEST_TIMEOUT_MS = 8000;
