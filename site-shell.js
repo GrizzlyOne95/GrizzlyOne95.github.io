@@ -3,7 +3,10 @@
   if (window.__grizzlySiteShellLoaded) return;
   window.__grizzlySiteShellLoaded = true;
 
-  const LIVE_API = 'https://bz98gamewatcher.com';
+  // Must match API_BASE_URL in gamewatcher.js. Tailscale Funnel hostname for the
+  // self-hosted watcher; it resolves to Tailscale's edge, never to a home IP.
+  // Never replace it with a residential/public WAN IP in this public repository.
+  const LIVE_API = 'https://bz1-gamewatcher.tail373def.ts.net';
   const LIVE_VISIBLE_MS = 60000;
   const LIVE_HIDDEN_MS = 300000;
   const LIVE_TIMEOUT_MS = 6000;
