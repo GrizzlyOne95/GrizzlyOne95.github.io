@@ -1,0 +1,36 @@
+.skip-link {
+  position: fixed;
+  z-index: 1000;
+  left: 12px;
+  top: 10px;
+  padding: 8px 11px;
+  border: 1px solid var(--accent);
+  background: #071009;
+  color: #efffb0;
+  font: 700 .72rem Consolas, "Courier New", monospace;
+  letter-spacing: .06em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transform: translateY(-180%);
+  transition: transform .12s ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid #d2e783;
+  outline-offset: 2px;
+}
+
+:where(a, button, input, summary, [tabindex]):focus-visible {
+  outline: 2px solid #d2e783;
+  outline-offset: 2px;
+}
+
+.content-shell:focus {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link { transition: none; }
+}
