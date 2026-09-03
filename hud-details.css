@@ -8,6 +8,27 @@
   --hud-green-faint: rgba(157, 204, 88, .055);
 }
 
+/* A very faint archival Battlezone image under the entire site. The dark
+   overlays keep it atmospheric rather than turning it into page content. */
+body {
+  background:
+    radial-gradient(circle at 73% 8%, rgba(104,142,71,.10), transparent 34rem),
+    linear-gradient(180deg, rgba(5,9,6,.88), rgba(3,6,4,.95) 38rem, rgba(2,4,3,.985) 100%),
+    url("./assets/decor/bztemp.bmp") center top / cover fixed no-repeat,
+    #040605;
+}
+
+/* Battlezone pages have a more specific background rule in battlezone-decor.css;
+   repeat the faint bztemp treatment at matching specificity so the full-site
+   backdrop stays consistent there too. */
+body:has(.nav-parent.active[href="./battlezone.html"]) {
+  background:
+    radial-gradient(circle at 68% 8%, rgba(157,204,88,.11), transparent 34rem),
+    linear-gradient(180deg, rgba(3,7,4,.84), rgba(3,6,4,.96) 42rem, rgba(2,4,3,.99) 100%),
+    url("./assets/decor/bztemp.bmp") center top / cover fixed no-repeat,
+    #030504;
+}
+
 /* Localized scan bands: title displays get the clearest treatment. */
 .page-titlebar::before {
   content: "";
@@ -49,6 +70,34 @@
     transparent 9px 13px
   );
   opacity: .8;
+}
+
+/* The personal Battlezone history block gets its own muted archival backdrop. */
+body:has(.battlezone-home-titlebar) .content-body > .lede {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(5,13,7,.88), rgba(5,10,7,.94) 72%, rgba(4,8,5,.97)),
+    url("./assets/decor/battle800x600.png") center 48% / cover no-repeat;
+  border-left-color: #91df5e;
+  box-shadow:
+    inset 0 0 32px rgba(0,0,0,.35),
+    inset 0 1px rgba(173,220,112,.035);
+  text-shadow: 0 1px 2px rgba(0,0,0,.72);
+}
+
+/* Mods retain bztemp outside the page frame but use a distinct release-era
+   screenshot as a muted internal page texture. */
+body:has(.subnav a.active[href="./battlezone-mods.html"]) .content-shell {
+  background:
+    linear-gradient(180deg, rgba(10,16,11,.93), rgba(5,9,6,.975) 32rem, rgba(4,7,5,.992)),
+    url("./assets/decor/HighresScreenshot00005.png") center top / cover no-repeat;
+}
+
+body:has(.subnav a.active[href="./battlezone-mods.html"]) .page-titlebar {
+  background:
+    linear-gradient(90deg, rgba(19,36,19,.91), rgba(8,14,9,.965) 62%, rgba(6,10,7,.985)),
+    url("./assets/decor/HighresScreenshot00005.png") center 46% / cover no-repeat;
 }
 
 /* Tiny tank-console style indicator lamps on metadata labels. */
@@ -149,6 +198,20 @@
   opacity: .8;
 }
 
+/* Decorative Battlezone footer art. It intentionally sits outside the content
+   flow below the status rail, like a subdued vehicle-panel graphic. */
+body:has(.nav-parent.active[href="./battlezone.html"]) .content-shell::after {
+  content: "";
+  display: block;
+  height: clamp(72px, 10vw, 112px);
+  margin: 4px 28px 22px;
+  border-top: 1px solid rgba(157,204,88,.08);
+  background: url("./assets/decor/df261c42-a893-4468-891b-8e6c33a77261.png") center / contain no-repeat;
+  opacity: .24;
+  filter: saturate(.72) brightness(.68) contrast(1.04);
+  pointer-events: none;
+}
+
 /* Preserve a distinct live-status light: functional state should be brighter
    than purely decorative indicators. */
 .watcher-dot.is-online {
@@ -157,8 +220,20 @@
     0 0 22px rgba(157,204,88,.12);
 }
 
+@media (max-width: 860px) {
+  body,
+  body:has(.nav-parent.active[href="./battlezone.html"]) {
+    background-attachment: scroll;
+  }
+}
+
 @media (max-width: 660px) {
   .page-titlebar::before { opacity: .5; }
   .label::before,
   .profile-link .network::before { margin-right: 6px; }
+  body:has(.nav-parent.active[href="./battlezone.html"]) .content-shell::after {
+    height: 68px;
+    margin: 2px 16px 16px;
+    opacity: .20;
+  }
 }
