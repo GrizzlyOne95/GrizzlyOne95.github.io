@@ -23,21 +23,21 @@
   let errorDelay = NORMAL_POLL_MS;
   let polling = false;
 
-  function setStatus(kind, text, detail) {
+  function setStatus(kind, label, detail) {
     statusDot.className = `watcher-dot is-${kind}`;
-    statusText.textContent = text;
+    statusText.textContent = label;
     updatedText.textContent = detail || '';
   }
 
-  function setMessage(text) {
-    if (!text) {
+  function setMessage(value) {
+    if (!value) {
       message.hidden = true;
       message.textContent = '';
       return;
     }
 
     message.hidden = false;
-    message.textContent = text;
+    message.textContent = value;
   }
 
   function schedule(delay) {
@@ -59,10 +59,7 @@
         signal: controller.signal
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return await response.json();
     } finally {
       clearTimeout(timeout);
@@ -75,119 +72,342 @@
     return normalized || fallback;
   }
 
-  function safeJoinUrl(value) {
+  function present(value) {
+    return value !== null && value !== undefined && String(value).trim() !== '';
+  }
+
+  function safeUrl(value, protocols) {
     if (!value) return null;
     try {
       const url = new URL(value);
-      return ['steam:', 'https:', 'http:'].includes(url.protocol) ? url.href : null;
+      return protocols.includes(url.protocol) ? url.href : null;
     } catch {
       return null;
     }
   }
 
-  function addChip(container, label, alert = false) {
+  function safeJoinUrl(value) {
+    return safeUrl(value, ['steam:', 'https:', 'http:']);
+  }
+
+  function safeWebUrl(value) {
+    return safeUrl(value, ['https:', 'http:']);
+  }
+
+  function safeImageUrl(value) {
+    return safeUrl(value, ['https:', 'http:']);
+  }
+
+  function lobbyDisplayName(lobby) {
+    const rawName = text(lobby?.metaData?.name, '');
+    if (!rawName) return lobby?.owner ? `${lobby.owner}'s game` : `Lobby ${lobby?.id ?? ''}`;
+
+    return rawName
+      .replace(/^~game~(?:pub|pri)~\*?~/i, '')
+      .replace(/^~chat~(?:pub|pri)~~/i, '') || rawName;
+  }
+
+  function mapTitle(lobby) {
+    return text(lobby?.map?.title, text(lobby?.stats?.mapFile, 'Unknown map'));
+  }
+
+  function mapModeLabel(lobby) {
+    return text(
+      lobby?.map?.modeLabel,
+      text(lobby?.map?.customTypeName, text(lobby?.map?.typeLabel, 'Battlezone'))
+    );
+  }
+
+  function lobbyState(lobby) {
+    if (lobby?.metaData?.gameEnded === '1') return { label: 'ENDED', kind: 'ended', rank: 0 };
+    if (lobby?.metaData?.launched === '1') return { label: 'IN PROGRESS', kind: 'playing', rank: 3 };
+    if (lobby?.metaData?.launched === '0') return { label: 'IN LOBBY', kind: 'lobby', rank: 2 };
+    return { label: 'LIVE', kind: 'unknown', rank: 1 };
+  }
+
+  function formatDuration(dateValue, prefix = 'Open') {
+    const timestamp = Date.parse(dateValue);
+    if (!Number.isFinite(timestamp)) return null;
+
+    const seconds = Math.max(0, Math.floor((Date.now() - timestamp) / 1000));
+    if (seconds < 60) return `${prefix} <1m`;
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${prefix} ${minutes}m`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${prefix} ${hours}h ${minutes % 60}m`;
+    const days = Math.floor(hours / 24);
+    return `${prefix} ${days}d ${hours % 24}h`;
+  }
+
+  function formatAge(dateValue) {
+    const timestamp = Date.parse(dateValue);
+    if (!Number.isFinite(timestamp)) return 'Update time unavailable';
+
+    const seconds = Math.max(0, Math.round((Date.now() - timestamp) / 1000));
+    if (seconds < 5) return 'Updated just now';
+    if (seconds < 60) return `Updated ${seconds}s ago`;
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `Updated ${minutes}m ago`;
+    return `Updated ${Math.floor(minutes / 60)}h ago`;
+  }
+
+  function addChip(container, label, kind = '') {
     if (!label) return;
     const chip = document.createElement('span');
-    chip.className = alert ? 'watcher-chip is-alert' : 'watcher-chip';
+    chip.className = `watcher-chip${kind ? ` is-${kind}` : ''}`;
     chip.textContent = label;
     container.appendChild(chip);
   }
 
-  function makePlayer(user) {
+  function makeAction(label, href, className = 'watcher-action', external = false) {
+    const link = document.createElement('a');
+    link.className = className;
+    link.href = href;
+    link.textContent = label;
+    if (external) {
+      link.target = '_blank';
+      link.rel = 'noopener';
+    }
+    return link;
+  }
+
+  function playerPlatform(user) {
+    const auth = text(user?.authType, '').toLowerCase();
+    if (auth === 'steam' || user?.isSteam) return 'Steam';
+    if (auth === 'gog' || user?.isGOG) return 'GOG';
+    return auth ? auth.toUpperCase() : null;
+  }
+
+  function playerMeta(user, lobby) {
+    const bits = [];
+    const team = text(user?.metaData?.team, '');
+    const vehicle = text(user?.metaData?.vehicle, '');
+    const platform = playerPlatform(user);
+
+    if (team) bits.push(`Team ${team}`);
+    if (vehicle) bits.push(vehicle);
+    if (platform) bits.push(platform);
+    if (user?.id && (user.id === lobby?.owner || user.id === lobby?.host?.id)) bits.unshift('Host');
+
+    return bits.join(' · ');
+  }
+
+  function makePlayer(user, lobby) {
     const item = document.createElement('li');
     item.className = 'watcher-player';
 
-    if (user?.steamImgUri) {
+    const avatarWrap = document.createElement('span');
+    avatarWrap.className = 'watcher-player-avatar';
+
+    const avatarUrl = safeImageUrl(user?.steamImgUri);
+    if (avatarUrl) {
       const image = document.createElement('img');
-      image.src = user.steamImgUri;
+      image.src = avatarUrl;
       image.alt = '';
       image.loading = 'lazy';
       image.referrerPolicy = 'no-referrer';
-      item.appendChild(image);
+      image.addEventListener('error', () => avatarWrap.classList.add('is-fallback'), { once: true });
+      avatarWrap.appendChild(image);
     } else {
-      const fallback = document.createElement('span');
-      fallback.className = 'watcher-avatar-fallback';
-      fallback.textContent = 'BZ';
-      fallback.setAttribute('aria-hidden', 'true');
-      item.appendChild(fallback);
+      avatarWrap.classList.add('is-fallback');
     }
 
-    const name = document.createElement('span');
-    name.textContent = text(user?.name, 'Unknown player');
-    item.appendChild(name);
+    const copy = document.createElement('span');
+    copy.className = 'watcher-player-copy';
 
+    const name = document.createElement('strong');
+    name.textContent = text(user?.name, 'Unknown player');
+    copy.appendChild(name);
+
+    const metaText = playerMeta(user, lobby);
+    if (metaText) {
+      const meta = document.createElement('span');
+      meta.textContent = metaText;
+      copy.appendChild(meta);
+    }
+
+    item.append(avatarWrap, copy);
     return item;
+  }
+
+  function playerTeam(user) {
+    const value = Number(user?.metaData?.team);
+    return Number.isFinite(value) && present(user?.metaData?.team) ? value : null;
+  }
+
+  function appendPlayerGroup(root, label, users, lobby) {
+    if (!users.length) return;
+
+    const group = document.createElement('section');
+    group.className = 'watcher-team';
+
+    const heading = document.createElement('div');
+    heading.className = 'watcher-team-head';
+    const title = document.createElement('span');
+    title.textContent = label;
+    const count = document.createElement('span');
+    count.textContent = String(users.length);
+    heading.append(title, count);
+
+    const list = document.createElement('ul');
+    list.className = 'watcher-players';
+    users
+      .sort((a, b) => text(a?.name, '').localeCompare(text(b?.name, '')))
+      .forEach(user => list.appendChild(makePlayer(user, lobby)));
+
+    group.append(heading, list);
+    root.appendChild(group);
+  }
+
+  function renderPlayers(lobby, visibleUsers) {
+    const roster = document.createElement('div');
+    roster.className = 'watcher-roster';
+
+    if (!visibleUsers.length) {
+      const none = document.createElement('p');
+      none.className = 'watcher-no-players';
+      none.textContent = 'No public player details available.';
+      roster.appendChild(none);
+      return roster;
+    }
+
+    const odd = [];
+    const even = [];
+    const unassigned = [];
+
+    visibleUsers.forEach(user => {
+      const team = playerTeam(user);
+      if (team === null) unassigned.push(user);
+      else if (team % 2) odd.push(user);
+      else even.push(user);
+    });
+
+    appendPlayerGroup(roster, odd.length && even.length ? 'TEAM // ODD' : 'PLAYERS', odd, lobby);
+    appendPlayerGroup(roster, 'TEAM // EVEN', even, lobby);
+    appendPlayerGroup(roster, odd.length || even.length ? 'UNASSIGNED' : 'PLAYERS', unassigned, lobby);
+
+    return roster;
   }
 
   function renderLobby(lobby) {
     const card = document.createElement('article');
-    card.className = 'watcher-lobby';
+    const state = lobbyState(lobby);
+    card.className = `watcher-lobby is-${state.kind}`;
 
-    const head = document.createElement('div');
+    const visibleUsers = Object.values(lobby?.users || {});
+    const currentUsers = Number.isFinite(lobby?.userCount) ? lobby.userCount : visibleUsers.length;
+    const limit = Number.isFinite(lobby?.memberLimit) && lobby.memberLimit > 0 ? lobby.memberLimit : '—';
+
+    const media = document.createElement('div');
+    media.className = 'watcher-lobby-media';
+
+    const artUrl = safeImageUrl(lobby?.map?.imageUrl) || safeImageUrl(lobby?.workshop?.previewUrl);
+    if (artUrl) {
+      const image = document.createElement('img');
+      image.src = artUrl;
+      image.alt = `${mapTitle(lobby)} map preview`;
+      image.loading = 'lazy';
+      image.referrerPolicy = 'no-referrer';
+      image.addEventListener('error', () => {
+        image.remove();
+        media.classList.add('is-fallback');
+      }, { once: true });
+      media.appendChild(image);
+    } else {
+      media.classList.add('is-fallback');
+    }
+
+    const mediaShade = document.createElement('div');
+    mediaShade.className = 'watcher-lobby-media-shade';
+    const mapFile = document.createElement('span');
+    mapFile.textContent = text(lobby?.stats?.mapFile, 'MAP PREVIEW');
+    mediaShade.appendChild(mapFile);
+    media.appendChild(mediaShade);
+
+    const main = document.createElement('div');
+    main.className = 'watcher-lobby-main';
+
+    const head = document.createElement('header');
     head.className = 'watcher-lobby-head';
 
     const titleWrap = document.createElement('div');
     titleWrap.className = 'watcher-lobby-title';
 
-    const label = document.createElement('span');
-    label.className = 'label';
-    label.textContent = text(lobby?.metaData?.gameType, 'Battlezone game');
+    const eyebrow = document.createElement('div');
+    eyebrow.className = 'watcher-lobby-eyebrow';
+    eyebrow.textContent = `${mapModeLabel(lobby)} // LOBBY ${lobby?.id ?? '—'}`;
 
     const title = document.createElement('h3');
-    title.textContent = text(lobby?.metaData?.name, lobby?.owner ? `${lobby.owner}'s game` : `Lobby ${lobby?.id ?? ''}`);
+    title.textContent = mapTitle(lobby);
 
-    titleWrap.append(label, title);
+    const subtitle = document.createElement('p');
+    subtitle.textContent = lobbyDisplayName(lobby);
 
-    const count = document.createElement('span');
+    titleWrap.append(eyebrow, title, subtitle);
+
+    const statusWrap = document.createElement('div');
+    statusWrap.className = 'watcher-lobby-status';
+
+    const statusBadge = document.createElement('span');
+    statusBadge.className = `watcher-state is-${state.kind}`;
+    statusBadge.textContent = state.label;
+
+    const count = document.createElement('strong');
     count.className = 'watcher-lobby-count';
-    const visibleUsers = Object.values(lobby?.users || {});
-    const currentUsers = Number.isFinite(lobby?.userCount) ? lobby.userCount : visibleUsers.length;
-    const limit = Number.isFinite(lobby?.memberLimit) && lobby.memberLimit > 0 ? lobby.memberLimit : '—';
     count.textContent = `${currentUsers} / ${limit}`;
 
-    head.append(titleWrap, count);
+    const age = document.createElement('span');
+    age.className = 'watcher-lobby-age';
+    age.textContent = formatDuration(lobby?.createdTime, 'Open') || 'Age unavailable';
+
+    statusWrap.append(statusBadge, count, age);
+    head.append(titleWrap, statusWrap);
 
     const body = document.createElement('div');
     body.className = 'watcher-lobby-body';
 
     const meta = document.createElement('div');
     meta.className = 'watcher-meta';
-    addChip(meta, lobby?.stats?.mapFile ? `MAP ${lobby.stats.mapFile}` : null);
-    addChip(meta, lobby?.stats?.mod ? `MOD ${lobby.stats.mod}` : null);
+
+    const workshopTitle = text(lobby?.workshop?.title, '');
+    const rawMod = text(lobby?.stats?.mod, '');
+    addChip(meta, workshopTitle ? `MOD ${workshopTitle}` : (rawMod ? `MOD ${rawMod}` : null));
     addChip(meta, lobby?.metaData?.gameVersion ? `VER ${lobby.metaData.gameVersion}` : null);
-    addChip(meta, lobby?.isLocked ? 'LOCKED' : null, true);
-    addChip(meta, lobby?.isPrivate ? 'PRIVATE' : null, true);
-    addChip(meta, lobby?.metaData?.launched ? `STATE ${lobby.metaData.launched}` : null);
+    addChip(meta, lobby?.stats?.syncJoin === true ? 'SYNC JOIN' : null, 'positive');
+    addChip(meta, lobby?.stats?.attributes?.satellite === true ? 'SATELLITE' : null, 'positive');
+    addChip(meta, present(lobby?.stats?.attributes?.lives) ? `${lobby.stats.attributes.lives} LIVES` : null);
+    addChip(meta, Number(lobby?.stats?.timeLimit) > 0 ? `${lobby.stats.timeLimit} MIN` : null);
+    addChip(meta, Number(lobby?.stats?.killLimit) > 0 ? `${lobby.stats.killLimit} KILLS` : null);
+    addChip(meta, lobby?.hasPassword ? 'PASSWORD' : null, 'alert');
+    addChip(meta, lobby?.isLocked ? 'LOCKED' : null, 'alert');
+    addChip(meta, lobby?.isPrivate ? 'PRIVATE' : null, 'alert');
 
-    const players = document.createElement('ul');
-    players.className = 'watcher-players';
+    const roster = renderPlayers(lobby, visibleUsers);
 
-    if (visibleUsers.length) {
-      visibleUsers
-        .sort((a, b) => text(a?.name, '').localeCompare(text(b?.name, '')))
-        .forEach(user => players.appendChild(makePlayer(user)));
-    } else {
-      const none = document.createElement('li');
-      none.className = 'watcher-player';
-      none.textContent = 'No player details available';
-      players.appendChild(none);
+    const actions = document.createElement('div');
+    actions.className = 'watcher-lobby-actions';
+
+    const detailUrl = `${API_BASE_URL}/lobby/${encodeURIComponent(lobby?.id ?? '')}`;
+    actions.appendChild(makeAction('Full details ↗', detailUrl, 'watcher-action is-secondary', true));
+
+    const workshopUrl = safeWebUrl(lobby?.workshop?.workshopUrl);
+    if (workshopUrl) {
+      actions.appendChild(makeAction('Workshop ↗', workshopUrl, 'watcher-action is-secondary', true));
     }
-
-    body.append(meta, players);
 
     const joinUrl = safeJoinUrl(lobby?.directJoinUrl);
-    if (joinUrl) {
-      const actions = document.createElement('div');
-      actions.className = 'watcher-lobby-actions';
-      const join = document.createElement('a');
-      join.className = 'small-button';
-      join.href = joinUrl;
-      join.textContent = 'Join game ↗';
-      actions.appendChild(join);
-      body.appendChild(actions);
+    if (joinUrl && !lobby?.isLocked && !lobby?.isPrivate) {
+      actions.appendChild(makeAction('JOIN GAME →', joinUrl, 'watcher-action is-primary'));
+    } else {
+      const unavailable = document.createElement('span');
+      unavailable.className = 'watcher-join-unavailable';
+      unavailable.textContent = lobby?.isLocked || lobby?.isPrivate ? 'JOIN RESTRICTED' : 'DIRECT JOIN UNAVAILABLE';
+      actions.appendChild(unavailable);
     }
 
-    card.append(head, body);
+    body.append(meta, roster, actions);
+    main.append(head, body);
+    card.append(media, main);
     return card;
   }
 
@@ -216,20 +436,12 @@
     }
 
     games
-      .sort((a, b) => (Number(b?.userCount) || 0) - (Number(a?.userCount) || 0))
+      .sort((a, b) => {
+        const stateDifference = lobbyState(b).rank - lobbyState(a).rank;
+        if (stateDifference) return stateDifference;
+        return (Number(b?.userCount) || 0) - (Number(a?.userCount) || 0);
+      })
       .forEach(lobby => lobbyRoot.appendChild(renderLobby(lobby)));
-  }
-
-  function formatAge(dateValue) {
-    const timestamp = Date.parse(dateValue);
-    if (!Number.isFinite(timestamp)) return 'Update time unavailable';
-
-    const seconds = Math.max(0, Math.round((Date.now() - timestamp) / 1000));
-    if (seconds < 5) return 'Updated just now';
-    if (seconds < 60) return `Updated ${seconds}s ago`;
-    const minutes = Math.floor(seconds / 60);
-    if (minutes < 60) return `Updated ${minutes}m ago`;
-    return `Updated ${Math.floor(minutes / 60)}h ago`;
   }
 
   async function poll() {
