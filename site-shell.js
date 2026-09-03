@@ -20,6 +20,27 @@
     other: './other.html'
   };
 
+  if (!document.querySelector('link[data-site-accessibility]')) {
+    const accessibility = document.createElement('link');
+    accessibility.rel = 'stylesheet';
+    accessibility.href = './accessibility.css';
+    accessibility.dataset.siteAccessibility = 'true';
+    document.head.appendChild(accessibility);
+  }
+
+  const main = document.querySelector('.content-shell');
+  if (main) {
+    main.id ||= 'main-content';
+    main.tabIndex = -1;
+    if (!document.querySelector('.skip-link')) {
+      const skip = document.createElement('a');
+      skip.className = 'skip-link';
+      skip.href = '#main-content';
+      skip.textContent = 'Skip to content';
+      document.body.prepend(skip);
+    }
+  }
+
   const file = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
   const isToolDetail = /^tool-.+\.html$/.test(file);
   const isModDetail = file === 'mod-detail.html' || /^mod-.+\.html$/.test(file);
@@ -61,6 +82,10 @@
     ];
     tabs.innerHTML = tabItems.map(([key, label, href]) => `<a${key === battlezoneSection ? ' class="active-tab"' : ''} href="${href}">${label}</a>`).join('');
   }
+
+  document.querySelectorAll('.mobile-nav a.active, .side-nav a.active, .anchor-tabs a.active-tab').forEach(link => {
+    link.setAttribute('aria-current', 'page');
+  });
 
   if (!document.querySelector('script[data-site-person-schema]')) {
     const schema = document.createElement('script');
