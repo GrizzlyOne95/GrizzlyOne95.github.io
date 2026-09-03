@@ -1,4 +1,12 @@
 (function () {
+  if (!window.__grizzlySiteShellLoaded && !document.querySelector('script[data-site-shell-loader]')) {
+    const shell = document.createElement('script');
+    shell.src = './site-shell.js';
+    shell.defer = true;
+    shell.dataset.siteShellLoader = 'true';
+    document.head.appendChild(shell);
+  }
+
   const root = document.getElementById('tool-root');
   if (!root) return;
   const slug = root.dataset.tool;
@@ -10,9 +18,58 @@
 
   const repoUrl = `https://github.com/GrizzlyOne95/${tool.repo}`;
   const releasesUrl = `${repoUrl}/releases`;
+  const canonicalUrl = `https://grizzlyone95.github.io/${window.location.pathname.split('/').pop()}`;
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const list = (items) => `<ul class="tool-list">${items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
   const steps = (items) => `<ol class="tool-steps">${items.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>`;
+
+  const ensureCanonical = () => {
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = canonicalUrl;
+  };
+
+  const setMeta = (property, content) => {
+    let meta = document.querySelector(`meta[property="${property}"]`);
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('property', property);
+      document.head.appendChild(meta);
+    }
+    meta.content = content;
+  };
+
+  ensureCanonical();
+  setMeta('og:type', 'website');
+  setMeta('og:site_name', 'GrizzlyOne95');
+  setMeta('og:title', `GrizzlyOne95 // ${tool.name}`);
+  setMeta('og:description', tool.overview);
+  setMeta('og:url', canonicalUrl);
+
+  const schema = document.createElement('script');
+  schema.type = 'application/ld+json';
+  schema.dataset.toolSchema = slug;
+  schema.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: tool.name,
+    description: tool.overview,
+    url: canonicalUrl,
+    downloadUrl: releasesUrl,
+    codeRepository: repoUrl,
+    applicationCategory: 'DeveloperApplication',
+    creator: {
+      '@type': 'Person',
+      name: 'GrizzlyOne95',
+      url: 'https://grizzlyone95.github.io/'
+    },
+    softwareRequirements: Array.isArray(tool.requirements) ? tool.requirements.join('; ') : undefined
+  });
+  document.head.appendChild(schema);
 
   // Runtime UI captures are intentionally kept as local site assets so the
   // details pages do not depend on repository README images or external CDNs.
