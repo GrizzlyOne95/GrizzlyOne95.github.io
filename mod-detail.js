@@ -14,6 +14,39 @@
   const titleEl = document.getElementById('mod-detail-title');
   const subtitleEl = document.getElementById('mod-detail-subtitle');
 
+  const majorFacts = {
+    '3686673790': [
+      ['Type', 'Patch + campaign'],
+      ['Scope', 'Early NSDF rewrite'],
+      ['Status', 'Active / experimental'],
+      ['Platform', 'BZ98R']
+    ],
+    '3536800125': [
+      ['Type', 'Experimental mod pack'],
+      ['Scope', 'Campaign + factions + assets'],
+      ['Status', 'Open beta / archive'],
+      ['Platform', 'BZ98R']
+    ],
+    '3476765858': [
+      ['Type', 'Full campaign'],
+      ['Missions', '12'],
+      ['Status', 'Complete'],
+      ['Platform', 'BZ98R']
+    ],
+    '3162242823': [
+      ['Type', 'Campaign + mod pack'],
+      ['Missions', '17'],
+      ['Status', 'Complete'],
+      ['Platform', 'BZ98R']
+    ],
+    '2973893698': [
+      ['Type', 'Original campaign'],
+      ['Missions', '9'],
+      ['Status', 'Complete'],
+      ['Platform', 'BZ98R']
+    ]
+  };
+
   const allItems = typeof groups === 'undefined' ? [] : groups.flatMap(group => group.items.map(item => ({ ...item, group: group.title })));
   const item = allItems.find(entry => entry.id === id);
 
@@ -114,6 +147,11 @@
     ? `<div class="section-rule"><h2>Related Links</h2><span class="code">// MORE</span></div><section class="panel"><div class="detail-links">${extra.related.map(link => `<a class="small-button" href="${esc(link.url)}" target="_blank" rel="noopener">${esc(link.label)} ↗</a>`).join('')}</div></section>`
     : '';
 
+  const facts = majorFacts[item.id] || [];
+  const factsSection = facts.length
+    ? `<dl class="mod-facts" aria-label="At a glance">${facts.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl>`
+    : '';
+
   root.innerHTML = `
     <section class="mod-detail-hero">
       <div class="mod-detail-image">${imageHtml}</div>
@@ -121,6 +159,7 @@
         <span class="mod-badge">${esc(item.badge)}</span>
         <h2>${esc(item.title)}</h2>
         <p>${esc(summary)}</p>
+        ${factsSection}
         <dl class="mod-meta">
           <div><dt>Category</dt><dd>${esc(item.group)}</dd></div>
           <div><dt>Workshop ID</dt><dd>${esc(item.id)}</dd></div>
