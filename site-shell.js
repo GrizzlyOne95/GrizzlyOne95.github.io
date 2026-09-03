@@ -35,7 +35,7 @@
   else if (file === 'battlezone-gallery.html') battlezoneSection = 'gallery';
   else if (file === 'battlezone-live.html') battlezoneSection = 'live';
 
-  const active = (value, expected, className = 'active') => value === expected ? ` class="${className}"` : '';
+  const active = (value, expected) => value === expected ? ' class="active"' : '';
 
   const mobile = document.querySelector('.mobile-header');
   if (mobile) {
@@ -44,7 +44,7 @@
 
   const sidebar = document.querySelector('.sidebar');
   if (sidebar) {
-    sidebar.innerHTML = `<div class="sidebar-shell"><a class="side-logo" href="${pages.about}"><strong>GRIZZLYONE95</strong><span>SYSTEMS // GAMES // TOOLS</span></a><nav class="side-nav"><a${active(primary, 'about', 'nav-link active')} class="${primary === 'about' ? 'nav-link active' : 'nav-link'}" href="${pages.about}">About</a><a class="${primary === 'battlezone' ? 'nav-parent active' : 'nav-parent'}" href="${pages.battlezone}">Battlezone</a><div class="subnav"><a${active(battlezoneSection, 'projects')} href="${pages.projects}">Projects</a><a${active(battlezoneSection, 'mods')} href="${pages.mods}">Mods</a><a${active(battlezoneSection, 'tools')} href="${pages.tools}">Tools</a><a${active(battlezoneSection, 'gallery')} href="${pages.gallery}">Gallery</a><a${active(battlezoneSection, 'live')} href="${pages.live}">Live Games</a></div><a class="${primary === 'media' ? 'nav-link active' : 'nav-link'}" href="${pages.media}">Media</a><a class="${primary === 'other' ? 'nav-link active' : 'nav-link'}" href="${pages.other}">Other</a></nav><div class="side-foot">GRIZZLYONE95.GITHUB.IO<br><a href="https://github.com/GrizzlyOne95">GITHUB</a> // <a href="https://steamcommunity.com/id/GrizzlyOne95/">STEAM</a> // <a href="https://www.youtube.com/@GrizzlyOne95/videos">YOUTUBE</a></div></div>`;
+    sidebar.innerHTML = `<div class="sidebar-shell"><a class="side-logo" href="${pages.about}"><strong>GRIZZLYONE95</strong><span>SYSTEMS // GAMES // TOOLS</span></a><nav class="side-nav"><a class="${primary === 'about' ? 'nav-link active' : 'nav-link'}" href="${pages.about}">About</a><a class="${primary === 'battlezone' ? 'nav-parent active' : 'nav-parent'}" href="${pages.battlezone}">Battlezone</a><div class="subnav"><a${active(battlezoneSection, 'projects')} href="${pages.projects}">Projects</a><a${active(battlezoneSection, 'mods')} href="${pages.mods}">Mods</a><a${active(battlezoneSection, 'tools')} href="${pages.tools}">Tools</a><a${active(battlezoneSection, 'gallery')} href="${pages.gallery}">Gallery</a><a${active(battlezoneSection, 'live')} href="${pages.live}">Live Games</a></div><a class="${primary === 'media' ? 'nav-link active' : 'nav-link'}" href="${pages.media}">Media</a><a class="${primary === 'other' ? 'nav-link active' : 'nav-link'}" href="${pages.other}">Other</a></nav><div class="side-foot">GRIZZLYONE95.GITHUB.IO<br><a href="https://github.com/GrizzlyOne95">GITHUB</a> // <a href="https://steamcommunity.com/id/GrizzlyOne95/">STEAM</a> // <a href="https://www.youtube.com/@GrizzlyOne95/videos">YOUTUBE</a></div></div>`;
   }
 
   const tabs = document.querySelector('.anchor-tabs');
@@ -60,8 +60,6 @@
     tabs.innerHTML = tabItems.map(([key, label, href]) => `<a${key === battlezoneSection ? ' class="active-tab"' : ''} href="${href}">${label}</a>`).join('');
   }
 
-  // A single site-wide structured identity record. Page-specific scripts add
-  // richer CreativeWork/SoftwareApplication data where appropriate.
   if (!document.querySelector('script[data-site-person-schema]')) {
     const schema = document.createElement('script');
     schema.type = 'application/ld+json';
