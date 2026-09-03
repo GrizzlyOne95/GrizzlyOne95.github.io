@@ -198,18 +198,32 @@ body:has(.subnav a.active[href="./battlezone-mods.html"]) .page-titlebar {
   opacity: .8;
 }
 
-/* Decorative Battlezone footer art. It intentionally sits outside the content
-   flow below the status rail, like a subdued vehicle-panel graphic. */
-body:has(.nav-parent.active[href="./battlezone.html"]) .content-shell::after {
+/* Battlezone vehicle art is integrated directly into the telemetry footer.
+   There is no separate image block or backing rectangle: it behaves like a
+   faint watermark between the left and right footer readouts. */
+body:has(.nav-parent.active[href="./battlezone.html"]) .status-line {
+  isolation: isolate;
+}
+
+body:has(.nav-parent.active[href="./battlezone.html"]) .status-line::after {
   content: "";
-  display: block;
-  height: clamp(72px, 10vw, 112px);
-  margin: 4px 28px 22px;
-  border-top: 1px solid rgba(157,204,88,.08);
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: 76px;
+  height: 48px;
+  transform: translate(-50%, -50%);
   background: url("./assets/decor/df261c42-a893-4468-891b-8e6c33a77261.png") center / contain no-repeat;
-  opacity: .24;
-  filter: saturate(.72) brightness(.68) contrast(1.04);
+  opacity: .13;
+  filter: saturate(.72) brightness(.82) contrast(1.06);
+  mix-blend-mode: screen;
   pointer-events: none;
+}
+
+body:has(.nav-parent.active[href="./battlezone.html"]) .status-line > span {
+  position: relative;
+  z-index: 1;
 }
 
 /* Preserve a distinct live-status light: functional state should be brighter
@@ -231,9 +245,9 @@ body:has(.nav-parent.active[href="./battlezone.html"]) .content-shell::after {
   .page-titlebar::before { opacity: .5; }
   .label::before,
   .profile-link .network::before { margin-right: 6px; }
-  body:has(.nav-parent.active[href="./battlezone.html"]) .content-shell::after {
-    height: 68px;
-    margin: 2px 16px 16px;
-    opacity: .20;
+  body:has(.nav-parent.active[href="./battlezone.html"]) .status-line::after {
+    width: 58px;
+    height: 38px;
+    opacity: .10;
   }
 }
