@@ -8,7 +8,8 @@
   }
 
   const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
+  const fixedId = document.body.dataset.modId || '';
+  const id = fixedId || params.get('id');
   const root = document.getElementById('mod-detail-root');
   const titleEl = document.getElementById('mod-detail-title');
   const subtitleEl = document.getElementById('mod-detail-subtitle');
@@ -32,7 +33,10 @@
   const extra = (typeof modDetails !== 'undefined' && modDetails[id]) ? modDetails[id] : {};
   const summary = item.desc || `A Battlezone 98 Redux Workshop release by GrizzlyOne95 in the ${item.group} category.`;
   const steamUrl = `https://steamcommunity.com/sharedfiles/filedetails/?id=${item.id}`;
-  const canonicalUrl = `https://grizzlyone95.github.io/mod-detail.html?id=${encodeURIComponent(item.id)}`;
+  const fileName = window.location.pathname.split('/').pop() || 'mod-detail.html';
+  const canonicalUrl = fixedId
+    ? `https://grizzlyone95.github.io/${encodeURIComponent(fileName)}`
+    : `https://grizzlyone95.github.io/mod-detail.html?id=${encodeURIComponent(item.id)}`;
   const imageHtml = item.image
     ? `<img src="${esc(item.image)}" alt="${esc(item.title)}">`
     : `<div class="mod-detail-fallback"><span>${esc(item.title)}</span></div>`;
