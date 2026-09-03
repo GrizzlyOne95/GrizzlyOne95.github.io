@@ -1,0 +1,154 @@
+/* Subtle powered-HUD detailing used across the site.
+   Keep these accents restrained: they should read as hardware/emissive cues,
+   not as a full-screen neon or CRT effect. */
+
+:root {
+  --hud-green: #9dcc58;
+  --hud-green-soft: rgba(157, 204, 88, .16);
+  --hud-green-faint: rgba(157, 204, 88, .055);
+}
+
+/* Localized scan bands: title displays get the clearest treatment. */
+.page-titlebar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 5px,
+      rgba(190, 230, 132, .035) 6px,
+      transparent 7px 10px
+    ),
+    linear-gradient(90deg, rgba(157,204,88,.03), transparent 68%);
+  opacity: .72;
+}
+
+/* Selected/featured surfaces get a much fainter internal HUD texture. */
+.project-card.featured,
+.panel,
+.watcher-lobby,
+.watcher-summary > div {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card.featured::after,
+.panel::after,
+.watcher-lobby::after,
+.watcher-summary > div::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 7px,
+    rgba(157,204,88,.018) 8px,
+    transparent 9px 13px
+  );
+  opacity: .8;
+}
+
+/* Tiny tank-console style indicator lamps on metadata labels. */
+.label::before,
+.profile-link .network::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin-right: 7px;
+  border-radius: 50%;
+  vertical-align: 2px;
+  background: #7da64b;
+  box-shadow: 0 0 5px rgba(157,204,88,.34);
+  opacity: .72;
+}
+
+/* Navigation behaves like a powered selector bank. */
+.anchor-tabs a {
+  position: relative;
+}
+
+.anchor-tabs a.active-tab::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: #b7e56b;
+  box-shadow: 0 0 7px rgba(157,204,88,.58);
+}
+
+.anchor-tabs a.active-tab {
+  padding-left: 19px;
+  box-shadow:
+    inset 0 -1px rgba(157,204,88,.2),
+    0 0 10px rgba(157,204,88,.035);
+}
+
+.nav-link.active::before,
+.nav-parent.active::before {
+  box-shadow: 0 0 8px rgba(157,204,88,.42);
+}
+
+.subnav a.active {
+  text-shadow: 0 0 7px rgba(157,204,88,.22);
+}
+
+/* Small powered marker before major section headings/status readouts. */
+.section-rule h2::before,
+.status-line span:first-child::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 9px;
+  border-radius: 1px;
+  background: #6f9544;
+  box-shadow: 0 0 6px rgba(157,204,88,.28);
+  vertical-align: 2px;
+  opacity: .7;
+}
+
+/* A couple of restrained illuminated edges, like active cockpit controls. */
+.side-logo strong {
+  text-shadow: 0 0 9px rgba(157,204,88,.12);
+}
+
+.card-links a:hover,
+.small-button:hover,
+.anchor-tabs a:hover,
+.anchor-tabs a:focus-visible {
+  box-shadow: 0 0 10px rgba(157,204,88,.08);
+}
+
+/* Corner instrumentation ticks without adding more content or vertical space. */
+.project-card,
+.panel,
+.profile-link {
+  background-image:
+    linear-gradient(90deg, rgba(157,204,88,.11), transparent 22px),
+    linear-gradient(180deg, rgba(157,204,88,.045), transparent 28px);
+  background-repeat: no-repeat;
+  background-size: 24px 1px, 1px 24px;
+  background-position: right 9px top 9px, right 9px top 9px;
+}
+
+/* Preserve a distinct live-status light: functional state should be brighter
+   than purely decorative indicators. */
+.watcher-dot.is-online {
+  box-shadow:
+    0 0 12px rgba(157,204,88,.42),
+    0 0 22px rgba(157,204,88,.12);
+}
+
+@media (max-width: 660px) {
+  .page-titlebar::before { opacity: .5; }
+  .label::before,
+  .profile-link .network::before { margin-right: 6px; }
+}
