@@ -1,6 +1,13 @@
 (() => {
   const ISDFC_ID = '3162242823';
   const ISDFC_IMAGE = 'https://images.steamusercontent.com/ugc/2479870614173299696/195AA57620D8FD9C3FCD9023E4BB18403304227B/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false';
+  const detailRoutes = {
+    '3686673790': './mod-campaign-reimagined.html',
+    '3536800125': './mod-resurgence.html',
+    '3476765858': './mod-rise-of-the-black-dogs.html',
+    '3162242823': './mod-isdf-chronicles.html',
+    '2973893698': './mod-legacy-of-the-black-dogs.html'
+  };
 
   if (typeof groups !== 'undefined') {
     for (const group of groups) {
@@ -38,7 +45,8 @@
     if (copy) {
       const actions = document.createElement('div');
       actions.className = 'mod-actions';
-      actions.innerHTML = `<a class="mod-action primary" href="./mod-detail.html?id=${id}">Details →</a><a class="mod-action" href="${steamHref}" target="_blank" rel="noopener">Steam ↗</a>`;
+      const detailHref = detailRoutes[id] || `./mod-detail.html?id=${id}`;
+      actions.innerHTML = `<a class="mod-action primary" href="${detailHref}">Details →</a><a class="mod-action" href="${steamHref}" target="_blank" rel="noopener">Steam ↗</a>`;
       copy.appendChild(actions);
     }
 
