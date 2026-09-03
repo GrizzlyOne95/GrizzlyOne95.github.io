@@ -1,5 +1,7 @@
 (() => {
   'use strict';
+  if (window.__grizzlySiteShellLoaded) return;
+  window.__grizzlySiteShellLoaded = true;
 
   const LIVE_API = 'https://bz98gamewatcher.com';
   const LIVE_VISIBLE_MS = 60000;
