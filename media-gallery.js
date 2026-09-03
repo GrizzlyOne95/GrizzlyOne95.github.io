@@ -58,6 +58,39 @@
     'truman_lg_recycler.jpg'
   ];
 
+  const archiveMeta = {
+    'HighresScreenshot00005.png': { project: 'Battlezone 98 Redux', type: 'In-game screenshot', title: 'Redux Combat Capture', description: 'Battlezone 98 Redux gameplay/development screenshot retained as part of the long-running modding archive.' },
+    'HighresScreenshot00007.png': { project: 'Battlezone 98 Redux', type: 'In-game screenshot', title: 'Redux Development Capture', description: 'A second high-resolution Battlezone 98 Redux capture from the development and modding archive.' },
+    'battle800x600.png': { project: 'Battlezone', type: 'Legacy reference art', title: 'Battlezone Reference Image', description: 'Legacy Battlezone imagery kept as a visual reference and reused sparingly in the site presentation.' },
+    'bztemp.bmp': { project: 'Battlezone', type: 'Legacy texture / image', title: 'Battlezone Archive Texture', description: 'An older Battlezone image retained as a visual-reference asset and used as the site-wide atmospheric background.' },
+    'Avastr_render.webp': { project: 'NSDF vehicle archive', type: 'Vehicle render', title: 'NSDF Assault Tank Render', description: 'Vehicle render from the Battlezone asset and model-reference archive.' },
+    'Avflak_render.webp': { project: 'NSDF vehicle archive', type: 'Vehicle render', title: 'NSDF Flak Vehicle Render', description: 'Battlezone vehicle render preserved for model and faction reference.' },
+    'Avhtnk_screenshot.webp': { project: 'NSDF vehicle archive', type: 'Vehicle screenshot', title: 'NSDF Heavy Tank', description: 'Heavy-tank reference image from the broader Battlezone vehicle archive.' },
+    'Nsdf_carrier.webp': { project: 'NSDF vehicle archive', type: 'Vehicle render', title: 'NSDF Carrier', description: 'Carrier render/reference from the NSDF vehicle archive.' },
+    'Sovstriker.jpg': { project: 'CCA vehicle archive', type: 'Vehicle reference', title: 'Soviet Striker', description: 'Reference image for the Soviet/CCA Striker vehicle.' },
+    'Svstrk_render.webp': { project: 'CCA vehicle archive', type: 'Vehicle render', title: 'CCA Striker Render', description: 'Rendered Striker asset preserved as part of the CCA vehicle archive.' },
+    'TroDemoAd1.webp': { project: 'The Red Odyssey', type: 'Promotional art', title: 'The Red Odyssey Demo Art I', description: 'Promotional/demo-era artwork retained from The Red Odyssey material.' },
+    'TroDemoAd2.webp': { project: 'The Red Odyssey', type: 'Promotional art', title: 'The Red Odyssey Demo Art II', description: 'A second piece of promotional/demo-era artwork from The Red Odyssey archive.' },
+    'Slide_tro_2.webp': { project: 'The Red Odyssey', type: 'Presentation / archive slide', title: 'The Red Odyssey Archive Slide', description: 'Presentation-style image retained with the Red Odyssey reference material.' },
+    'manualsketchtank.png': { project: 'Battlezone design archive', type: 'Concept sketch', title: 'Tank Design Sketch', description: 'Hand-drawn vehicle/design reference preserved with the Battlezone concept material.' },
+    'earlytank2.webp': { project: 'Battlezone design archive', type: 'Early vehicle reference', title: 'Early Tank Study', description: 'Early vehicle imagery retained for design and development-history reference.' },
+    'mammoth_tank.jpg': { project: 'Battlezone design archive', type: 'Vehicle reference', title: 'Mammoth Tank', description: 'Vehicle reference image preserved in the long-term Battlezone design archive.' },
+    'longbow.gif': { project: 'Battlezone design archive', type: 'Animated reference', title: 'Longbow', description: 'Animated vehicle/reference asset from the Battlezone archive.' },
+    'mobile_repair.jpg': { project: 'Battlezone design archive', type: 'Vehicle reference', title: 'Mobile Repair Concept', description: 'Mobile repair/service vehicle reference kept with experimental and historical design material.' },
+    'early_war_gun_kino.jpg': { project: 'Battlezone design archive', type: 'Concept / reference art', title: 'Early War Gun Study', description: 'Historical weapon/vehicle concept reference from the Battlezone design archive.' },
+    'truman_lg_badger.jpg': { project: 'Truman vehicle studies', type: 'Vehicle render', title: 'Truman Badger', description: 'Hard-surface vehicle study from the Truman model set.' },
+    'truman_lg_bobcat.jpg': { project: 'Truman vehicle studies', type: 'Vehicle render', title: 'Truman Bobcat', description: 'Hard-surface vehicle study from the Truman model set; a related Bobcat model also appears in the Workshop catalog.' },
+    'truman_lg_pilot.jpg': { project: 'Truman vehicle studies', type: 'Character / model render', title: 'Truman Pilot', description: 'Pilot/model study retained with the Truman asset set.' },
+    'truman_lg_razor.jpg': { project: 'Truman vehicle studies', type: 'Vehicle render', title: 'Truman Razor', description: 'Hard-surface vehicle study from the Truman model set.' },
+    'truman_lg_recycler.jpg': { project: 'Truman vehicle studies', type: 'Vehicle render', title: 'Truman Recycler', description: 'Recycler model study retained with the Truman vehicle set.' },
+    'avcarr2.jpg': { project: 'NSDF vehicle archive', type: 'Vehicle reference', title: 'NSDF Carrier Study', description: 'NSDF carrier/model reference from the Battlezone asset archive.' },
+    'avcruz.jpg': { project: 'NSDF vehicle archive', type: 'Vehicle reference', title: 'NSDF Cruiser', description: 'NSDF cruiser reference image retained for vehicle and faction research.' },
+    'svcarr.jpg': { project: 'CCA vehicle archive', type: 'Vehicle reference', title: 'CCA Carrier', description: 'CCA carrier reference image from the Battlezone vehicle archive.' },
+    'svcruz.jpg': { project: 'CCA vehicle archive', type: 'Vehicle reference', title: 'CCA Cruiser', description: 'CCA cruiser reference image retained for vehicle and faction research.' },
+    'svhind.jpg': { project: 'CCA vehicle archive', type: 'Vehicle reference', title: 'CCA Hind', description: 'CCA Hind reference image from the broader vehicle archive.' },
+    'svramm2.jpg': { project: 'CCA vehicle archive', type: 'Vehicle reference', title: 'CCA Vehicle Study', description: 'CCA vehicle reference preserved with the model and design archive.' }
+  };
+
   const imagePattern = /\.(?:jpe?g|png|webp|gif|bmp)$/i;
   const root = document.getElementById('media-slideshow');
   const image = document.getElementById('media-slide-image');
@@ -68,6 +101,9 @@
   const previous = document.getElementById('media-slide-prev');
   const next = document.getElementById('media-slide-next');
   const playToggle = document.getElementById('media-slide-play');
+  const project = document.getElementById('media-slide-project');
+  const mediaType = document.getElementById('media-slide-type');
+  const description = document.getElementById('media-slide-description');
 
   if (!root || !image || !caption || !counter || !filmstrip || !previous || !next || !playToggle) return;
 
@@ -86,6 +122,13 @@
     .replace(/\s+/g, ' ')
     .trim()
     .replace(/\b[a-z]/g, character => character.toUpperCase());
+
+  const metadataFor = file => archiveMeta[file] || {
+    project: 'Battlezone // Archive',
+    type: 'Archive image',
+    title: prettyName(file),
+    description: 'Battlezone development, modding, model, or reference image retained in the local archive. Additional historical context has not yet been cataloged for this file.'
+  };
 
   const normalize = value => (value + files.length) % files.length;
 
@@ -129,11 +172,12 @@
     offsets.forEach(offset => {
       const itemIndex = normalize(index + offset);
       const file = files[itemIndex];
+      const meta = metadataFor(file);
       const button = document.createElement('button');
       button.type = 'button';
       button.className = `media-filmstrip-item${itemIndex === index ? ' active' : ''}`;
       button.dataset.index = String(itemIndex);
-      button.setAttribute('aria-label', `Show ${prettyName(file)}`);
+      button.setAttribute('aria-label', `Show ${meta.title}`);
       button.setAttribute('aria-current', itemIndex === index ? 'true' : 'false');
 
       const thumb = document.createElement('img');
@@ -155,9 +199,13 @@
   const render = () => {
     if (!files.length) return;
     const file = files[index];
+    const meta = metadataFor(file);
     image.src = sourceFor(file);
-    image.alt = prettyName(file);
-    caption.textContent = prettyName(file);
+    image.alt = meta.title;
+    caption.textContent = meta.title;
+    if (project) project.textContent = meta.project;
+    if (mediaType) mediaType.textContent = meta.type;
+    if (description) description.textContent = meta.description;
     counter.textContent = `${index + 1} / ${files.length}`;
     if (galleryCount) galleryCount.textContent = `// ${files.length} LOCAL IMAGES`;
     playToggle.textContent = autoplay ? 'Pause' : 'Play';
