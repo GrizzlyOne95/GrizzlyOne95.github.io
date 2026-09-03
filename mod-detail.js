@@ -1,4 +1,12 @@
 (() => {
+  if (!window.__grizzlySiteShellLoaded && !document.querySelector('script[data-site-shell-loader]')) {
+    const shell = document.createElement('script');
+    shell.src = './site-shell.js';
+    shell.defer = true;
+    shell.dataset.siteShellLoader = 'true';
+    document.head.appendChild(shell);
+  }
+
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
   const root = document.getElementById('mod-detail-root');
@@ -24,9 +32,62 @@
   const extra = (typeof modDetails !== 'undefined' && modDetails[id]) ? modDetails[id] : {};
   const summary = item.desc || `A Battlezone 98 Redux Workshop release by GrizzlyOne95 in the ${item.group} category.`;
   const steamUrl = `https://steamcommunity.com/sharedfiles/filedetails/?id=${item.id}`;
+  const canonicalUrl = `https://grizzlyone95.github.io/mod-detail.html?id=${encodeURIComponent(item.id)}`;
   const imageHtml = item.image
     ? `<img src="${esc(item.image)}" alt="${esc(item.title)}">`
     : `<div class="mod-detail-fallback"><span>${esc(item.title)}</span></div>`;
+
+  const ensureCanonical = () => {
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = canonicalUrl;
+  };
+
+  const setMeta = (property, content) => {
+    let meta = document.querySelector(`meta[property="${property}"]`);
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('property', property);
+      document.head.appendChild(meta);
+    }
+    meta.content = content;
+  };
+
+  ensureCanonical();
+  setMeta('og:type', 'website');
+  setMeta('og:site_name', 'GrizzlyOne95');
+  setMeta('og:title', `GrizzlyOne95 // ${item.title}`);
+  setMeta('og:description', summary);
+  setMeta('og:url', canonicalUrl);
+  if (item.image) setMeta('og:image', item.image);
+
+  const schema = document.createElement('script');
+  schema.type = 'application/ld+json';
+  schema.dataset.modSchema = item.id;
+  schema.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: item.title,
+    description: summary,
+    url: canonicalUrl,
+    image: item.image || undefined,
+    sameAs: steamUrl,
+    genre: item.badge,
+    creator: {
+      '@type': 'Person',
+      name: 'GrizzlyOne95',
+      url: 'https://grizzlyone95.github.io/'
+    },
+    isPartOf: {
+      '@type': 'VideoGame',
+      name: 'Battlezone 98 Redux'
+    }
+  });
+  document.head.appendChild(schema);
 
   document.title = `GrizzlyOne95 // ${item.title}`;
   titleEl.textContent = item.title;
