@@ -8,7 +8,10 @@
   const NORMAL_POLL_MS = 5000;
   const HIDDEN_POLL_MS = 30000;
   const REQUEST_TIMEOUT_MS = 8000;
-  const STALE_AFTER_MS = 120000;
+  // Only a backstop for a wedged-open websocket; the connection state is the
+  // primary signal. Two minutes was too aggressive to use on its own, because an
+  // idle lobby service sends nothing for far longer than that.
+  const STALE_BACKSTOP_MS = 900000;
 
   const statusDot = document.getElementById('watcher-status-dot');
   const statusText = document.getElementById('watcher-status-text');
@@ -459,8 +462,18 @@
       refreshRate.textContent = document.hidden ? '30s' : '5s';
       setMessage('');
 
+      // The lobby service is event-driven: it pushes only when a game or player
+      // actually changes, so lastUpdatedUtc legitimately stops advancing during
+      // quiet periods. Ageing it out on its own reported a healthy watcher as
+      // stale after two idle minutes, which is normal at off-peak hours.
+      //
+      // The websocket state is the real signal, so trust it, and keep the age
+      // check only as a long backstop for a connection that is wedged open but
+      // no longer delivering anything.
       const lastUpdated = Date.parse(health?.lastUpdatedUtc);
-      const stale = Number.isFinite(lastUpdated) && (Date.now() - lastUpdated > STALE_AFTER_MS);
+      const connected = health?.lobbyConnection?.isConnected !== false;
+      const ageExceeded = Number.isFinite(lastUpdated) && (Date.now() - lastUpdated > STALE_BACKSTOP_MS);
+      const stale = !connected || ageExceeded;
       if (stale) {
         setStatus('stale', 'Watcher online // lobby feed stale', formatAge(health?.lastUpdatedUtc));
       } else {
