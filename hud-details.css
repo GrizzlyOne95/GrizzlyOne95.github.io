@@ -115,6 +115,23 @@ body:has(.subnav a.active[href="./battlezone-mods.html"]) .page-titlebar {
   opacity: .72;
 }
 
+/* Keep the Battlezone section selector available on long catalog/detail pages. */
+body:has(.nav-parent.active[href="./battlezone.html"]) .anchor-tabs {
+  position: sticky;
+  top: 10px;
+  z-index: 18;
+  margin-left: -8px;
+  margin-right: -8px;
+  padding: 8px;
+  border: 1px solid rgba(65,86,69,.82);
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 7px, rgba(157,204,88,.018) 8px, transparent 9px 13px),
+    rgba(7,12,8,.92);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.20), inset 0 1px rgba(255,255,255,.018);
+}
+
 /* Navigation behaves like a powered selector bank. */
 .anchor-tabs a {
   position: relative;
@@ -240,12 +257,21 @@ body:has(.nav-parent.active[href="./battlezone.html"]) .status-line > span {
   body:has(.nav-parent.active[href="./battlezone.html"]) {
     background-attachment: scroll;
   }
+  body:has(.nav-parent.active[href="./battlezone.html"]) .anchor-tabs {
+    top: 66px;
+  }
 }
 
 @media (max-width: 660px) {
   .page-titlebar::before { opacity: .5; }
   .label::before,
   .profile-link .network::before { margin-right: 6px; }
+  body:has(.nav-parent.active[href="./battlezone.html"]) .anchor-tabs {
+    top: 62px;
+    margin-left: -4px;
+    margin-right: -4px;
+    padding: 6px;
+  }
   body:has(.nav-parent.active[href="./battlezone.html"]) .status-line::after {
     width: 58px;
     height: 38px;
