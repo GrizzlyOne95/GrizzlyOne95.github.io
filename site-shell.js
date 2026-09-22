@@ -20,6 +20,7 @@
     gallery: './battlezone-gallery.html',
     live: './battlezone-live.html',
     media: './media.html',
+    art: './art.html',
     other: './other.html'
   };
 
@@ -52,6 +53,7 @@
   let primary = 'about';
   if (isBattlezone) primary = 'battlezone';
   else if (file === 'media.html') primary = 'media';
+  else if (file === 'art.html') primary = 'art';
   else if (file === 'other.html') primary = 'other';
 
   let battlezoneSection = 'overview';
@@ -65,12 +67,12 @@
 
   const mobile = document.querySelector('.mobile-header');
   if (mobile) {
-    mobile.innerHTML = `<a class="mobile-brand" href="${pages.about}">GRIZZLYONE95</a><nav class="mobile-nav" aria-label="Mobile navigation"><a${active(primary, 'about')} href="${pages.about}">About</a><a${active(primary, 'battlezone')} href="${pages.battlezone}">Battlezone</a><a${active(primary, 'media')} href="${pages.media}">Media</a><a${active(primary, 'other')} href="${pages.other}">Other</a></nav>`;
+    mobile.innerHTML = `<a class="mobile-brand" href="${pages.about}">GRIZZLYONE95</a><nav class="mobile-nav" aria-label="Mobile navigation"><a${active(primary, 'about')} href="${pages.about}">About</a><a${active(primary, 'battlezone')} href="${pages.battlezone}">Battlezone</a><a${active(primary, 'media')} href="${pages.media}">Media</a><a${active(primary, 'art')} href="${pages.art}">Art & 3D</a><a${active(primary, 'other')} href="${pages.other}">Other</a></nav>`;
   }
 
   const sidebar = document.querySelector('.sidebar');
   if (sidebar) {
-    sidebar.innerHTML = `<div class="sidebar-shell"><a class="side-logo" href="${pages.about}"><strong>GRIZZLYONE95</strong><span>SYSTEMS // GAMES // TOOLS</span></a><nav class="side-nav"><a class="${primary === 'about' ? 'nav-link active' : 'nav-link'}" href="${pages.about}">About</a><a class="${primary === 'battlezone' ? 'nav-parent active' : 'nav-parent'}" href="${pages.battlezone}">Battlezone</a><div class="subnav"><a${active(battlezoneSection, 'projects')} href="${pages.projects}">Projects</a><a${active(battlezoneSection, 'mods')} href="${pages.mods}">Mods</a><a${active(battlezoneSection, 'tools')} href="${pages.tools}">Tools</a><a${active(battlezoneSection, 'gallery')} href="${pages.gallery}">Gallery</a><a${active(battlezoneSection, 'live')} href="${pages.live}">Live Games</a></div><a class="${primary === 'media' ? 'nav-link active' : 'nav-link'}" href="${pages.media}">Media</a><a class="${primary === 'other' ? 'nav-link active' : 'nav-link'}" href="${pages.other}">Other</a></nav><div class="side-foot">GRIZZLYONE95.GITHUB.IO<br><a href="https://github.com/GrizzlyOne95">GITHUB</a> // <a href="https://steamcommunity.com/id/GrizzlyOne95/">STEAM</a> // <a href="https://www.youtube.com/@GrizzlyOne95/videos">YOUTUBE</a></div></div>`;
+    sidebar.innerHTML = `<div class="sidebar-shell"><a class="side-logo" href="${pages.about}"><strong>GRIZZLYONE95</strong><span>SYSTEMS // GAMES // TOOLS</span></a><nav class="side-nav"><a class="${primary === 'about' ? 'nav-link active' : 'nav-link'}" href="${pages.about}">About</a><a class="${primary === 'battlezone' ? 'nav-parent active' : 'nav-parent'}" href="${pages.battlezone}">Battlezone</a><div class="subnav"><a${active(battlezoneSection, 'projects')} href="${pages.projects}">Projects</a><a${active(battlezoneSection, 'mods')} href="${pages.mods}">Mods</a><a${active(battlezoneSection, 'tools')} href="${pages.tools}">Tools</a><a${active(battlezoneSection, 'gallery')} href="${pages.gallery}">Gallery</a><a${active(battlezoneSection, 'live')} href="${pages.live}">Live Games</a></div><a class="${primary === 'media' ? 'nav-link active' : 'nav-link'}" href="${pages.media}">Media</a><a class="${primary === 'art' ? 'nav-link active' : 'nav-link'}" href="${pages.art}">Art & 3D</a><a class="${primary === 'other' ? 'nav-link active' : 'nav-link'}" href="${pages.other}">Other</a></nav><div class="side-foot">GRIZZLYONE95.GITHUB.IO<br><a href="https://github.com/GrizzlyOne95">GITHUB</a> // <a href="https://steamcommunity.com/id/GrizzlyOne95/">STEAM</a> // <a href="https://www.youtube.com/@GrizzlyOne95/videos">YOUTUBE</a></div></div>`;
   }
 
   const tabs = document.querySelector('.anchor-tabs');
@@ -102,9 +104,10 @@
       sameAs: [
         'https://github.com/GrizzlyOne95',
         'https://steamcommunity.com/id/GrizzlyOne95/',
-        'https://www.youtube.com/@GrizzlyOne95/videos'
+        'https://www.youtube.com/@GrizzlyOne95/videos',
+        'https://sketchfab.com/decoloresdude'
       ],
-      knowsAbout: ['Battlezone 1998', 'game modding', 'reverse engineering', 'software development', 'IT infrastructure']
+      knowsAbout: ['Battlezone 1998', 'game modding', 'reverse engineering', 'software development', 'IT infrastructure', '3D modeling', 'Blender', 'Substance 3D Painter']
     });
     document.head.appendChild(schema);
   }
