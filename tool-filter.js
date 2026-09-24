@@ -23,7 +23,6 @@
           if (headingLower.includes('other battlezone')) tags.add('legacy');
           if (/blender|uv atlas|ogre mesh|msh|xsi/.test(text)) tags.add('blender');
           if (/multiplayer|lobby|game watcher/.test(text)) tags.add('multiplayer');
-          if (/workshop|publish|steamcmd/.test(text)) tags.add('publishing');
           if (/validation|diagnostic|dependency|inspect|extract|reverse-engineer/.test(text)) tags.add('diagnostics');
           card.dataset.toolTags = [...tags].join(' ');
         });
