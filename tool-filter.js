@@ -16,13 +16,15 @@
 
         cards.forEach(card => {
           const text = (card.textContent || '').toLowerCase();
-          const tags = new Set();
+          const tags = new Set((card.dataset.toolTags || '').split(/\s+/).filter(Boolean));
           if (headingLower.includes('authoring')) tags.add('authoring');
           if (headingLower.includes('publishing')) tags.add('publishing');
           if (headingLower.includes('inspection')) tags.add('diagnostics');
           if (headingLower.includes('other battlezone')) tags.add('legacy');
           if (/blender|uv atlas|ogre mesh|msh|xsi/.test(text)) tags.add('blender');
           if (/multiplayer|lobby|game watcher/.test(text)) tags.add('multiplayer');
+          if (/workshop|publish|steamcmd/.test(text)) tags.add('publishing');
+          if (/validation|diagnostic|dependency|inspect|extract|reverse-engineer/.test(text)) tags.add('diagnostics');
           card.dataset.toolTags = [...tags].join(' ');
         });
 
