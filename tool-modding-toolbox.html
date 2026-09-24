@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d0a">
+  <meta name="description" content="Battlezone 98 Modding Toolbox — unified Battlezone 98 Redux project, authoring, validation, asset, archive, and Workshop publishing workflows.">
+  <link rel="icon" type="image/png" href="./assets/decor/GrizzlyCircle.png">
+  <title>GrizzlyOne95 // Battlezone 98 Modding Toolbox</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./tool-detail.css">
+  <script src="./site-shell.js" defer data-site-shell-loader="true"></script>
+</head>
+<body>
+  <div class="site-frame">
+    <header class="mobile-header"></header>
+    <aside class="sidebar" aria-label="Site navigation"></aside>
+    <main class="content-shell">
+      <div class="hero-banner"><img src="./assets/grizzlyone95_hero.svg" alt="GrizzlyOne95 — Systems, Game Tools, Reverse Engineering"></div>
+      <header class="page-titlebar"><p class="eyebrow">BATTLEZONE // TOOL</p><h1>Battlezone Tool</h1><p>Usage · setup · downloads</p></header>
+      <div class="content-body">
+        <nav class="anchor-tabs" aria-label="Battlezone navigation"></nav>
+        <div id="tool-root"></div>
+      </div>
+    </main>
+  </div>
+  <script>
+    (function () {
+      var file = location.pathname.split('/').pop() || '';
+      var slug = file.replace(/^tool-/, '').replace(/\.html$/, '');
+      if (slug === 'localization') slug = 'localization-tool';
+      document.getElementById('tool-root').dataset.tool = slug;
+    })();
+  </script>
+  <script src="./tool-detail-data.js"></script>
+  <script src="./tool-detail.js"></script>
+</body>
+</html>
