@@ -119,6 +119,9 @@
   };
 
   const screenshots = screenshotMap[slug] || [];
+  const consolidationNotice = tool.consolidatedInto
+    ? `<p class="tool-consolidation-note"><strong>Consolidated:</strong> this former standalone utility is now maintained as part of <a href="./tool-modding-toolbox.html">${esc(tool.consolidatedInto)}</a>. The repository and release links on this page point to the unified toolbox.</p>`
+    : '';
   const screenshotGallery = screenshots.length ? `
     <div class="section-rule"><h2>Interface</h2><span class="code">// RUNTIME CAPTURE</span></div>
     <section class="tool-screenshot-panel panel" aria-label="${esc(tool.name)} interface screenshots">
@@ -145,6 +148,7 @@
     <section class="tool-intro panel">
       <span class="label">${esc(tool.category)}</span>
       <p class="tool-summary">${esc(tool.overview)}</p>
+      ${consolidationNotice}
       <div class="tool-actions">
         <a class="tool-download" href="${releasesUrl}" target="_blank" rel="noopener">Download / Releases ↗</a>
         <a class="small-button" href="${repoUrl}" target="_blank" rel="noopener">Repository ↗</a>

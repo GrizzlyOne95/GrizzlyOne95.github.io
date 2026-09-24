@@ -1,8 +1,25 @@
 window.BZ_TOOL_DETAILS = {
+  "modding-toolbox": {
+    name: "Battlezone 98 Modding Toolbox",
+    category: "Unified modding suite",
+    repo: "Battlezone98_Modding_Toolbox",
+    tagline: "One project-aware application for the major Battlezone 98 Redux modding workflows.",
+    overview: "Battlezone 98 Modding Toolbox consolidates the major Redux authoring utilities into one cross-platform workspace. Open a mod project once, then inspect missions and dependencies, validate ODFs, build or convert terrain, process textures and meshes, prepare audio and localization, work with ZFS archives, and publish through Steam Workshop from the same application.",
+    features: ["Project-aware workspace shared across tools", "BZN inspection, custom dependency tracing, and Redux ODF validation", "WorldBuilder and procedural HG2 terrain workflows, atlas creation, heightmap conversion, sky tools, mission visualization, and terrain auto-painting", "Texture, ACT, MAP, LGT, DXTBZ2, font-atlas, and holographic-text workflows", "Ogre mesh inspection, normal repair, preview, and static OBJ export", "Battlezone-oriented radio VO, engine-loop, soundtrack, and timing-manifest audio processing", "Localization scanning and localization-table generation", "ZFS browse, search, extraction, verification, creation, compression, and supported encrypted-member handling", "Steam Workshop readiness checks, changed-file review, supported fixes, SteamCMD integration, and publishing", "GUI plus bztoolbox command-line interface for automation and batch workflows"],
+    requirements: ["Prebuilt releases are available for Windows, macOS, and Linux", "Normal release builds are self-contained; Python, FFmpeg, Blender, Ogre command-line tools, and a separate LZO library are not required", "SteamCMD is only required when publishing to Steam Workshop"],
+    sourceRun: "python -m pip install -r requirements.txt\npython -m bztoolbox",
+    workflows: [
+      {title: "Open and audit a mod project", steps: ["Open the mod folder as a project.", "Run validation and inspect the dependency graph.", "Use mission/BZN and ODF views to trace missing or incorrect references.", "Move directly into the relevant terrain, texture, mesh, audio, localization, or archive module without reselecting the project."]},
+      {title: "Build or convert world content", steps: ["Open the world and terrain tools.", "Create or convert terrain, generate heightmaps or atlases, and prepare supporting MAT/TRN/LGT assets.", "Preview mission/world data and use authoring helpers such as auto-painting where appropriate.", "Validate the resulting project before testing it in Redux."]},
+      {title: "Prepare and publish a Workshop update", steps: ["Open the project and run the shared readiness checks.", "Review missing references, packaging issues, and files changed since the previous publish.", "Apply supported fixes or correct the project manually.", "Use the Workshop page to publish through SteamCMD and review the resulting diagnostics."]}
+    ],
+    notes: ["The toolbox replaces the former standalone BZN Toolbox/Scanner, WorldBuilder, HeightmapGen, Localization Tool, Workshop Uploader, HoloTextGen, Font Generator, OgreMeshTools, ZFS Specialist, TextureManager, and AudioTool/BZRadio repositories.", "Detailed format notes and module-specific research from the former tools are retained under the toolbox repository's docs directory.", "The normal validation pass is read-only and reports issues rather than silently rewriting project content."]
+  },
   "world-builder": {
     name: "Redux World Builder",
     category: "World authoring suite",
-    repo: "Battlezone98Redux_WorldBuilder",
+    repo: "Battlezone98_Modding_Toolbox",
+    consolidatedInto: "Battlezone 98 Modding Toolbox",
     tagline: "Build, convert, visualize, and package Battlezone 98 Redux worlds from one desktop tool.",
     overview: "Redux World Builder consolidates the world-authoring jobs that normally require several legacy utilities. It can create stock-style worlds, assemble custom texture atlases, port legacy terrain, convert HG2/HGT heightmaps, prepare skyboxes, visualize missions, and auto-paint MAT terrain data.",
     features: ["Stock map creation with TRN, HG2, and MAT output", "Custom atlas generation with cap and diagonal transitions", "Legacy 1.5 world conversion into Redux atlas/TRN/material workflows", "HG2/HGT ↔ PNG heightmap conversion", "HDRI/equirectangular skybox conversion and cubemap/material setup", "Mission visualization and MAT auto-painting"],
@@ -18,7 +35,8 @@ window.BZ_TOOL_DETAILS = {
   "heightmap-generator": {
     name: "Heightmap Generator",
     category: "Procedural terrain",
-    repo: "Battlezone98Redux_HeightmapGen",
+    repo: "Battlezone98_Modding_Toolbox",
+    consolidatedInto: "Battlezone 98 Modding Toolbox",
     tagline: "Generate Battlezone-style HG2 terrain built around authored gameplay forms rather than generic noise.",
     overview: "The Heightmap Generator creates driveable Battlezone terrain from a library of authored-style terrain grammars: shelves, corridors, ravines, craters, basins, escarpments, planetary archetypes, and urban substrates. It supports reproducible seeds, live previews, and direct HG2 export.",
     features: ["Core, planetary, and urban terrain styles", "Fresh random seeds with reproducible seed display", "Live HG2-height, LGT-style lighting, and shaded previews", "Relief, naturalization, detail, plateau, density, symmetry, and objective-pad controls", "HG2 and lossless 16-bit PNG export", "Existing-HG2 analysis and terrain-quality diagnostics"],
@@ -34,7 +52,8 @@ window.BZ_TOOL_DETAILS = {
   "texture-manager": {
     name: "BZR Texture Manager",
     category: "Texture pipeline",
-    repo: "Battlezone98Redux_TextureManager",
+    repo: "Battlezone98_Modding_Toolbox",
+    consolidatedInto: "Battlezone 98 Modding Toolbox",
     tagline: "Convert, inspect, optimize, and author the texture formats used across Battlezone modding workflows.",
     overview: "BZR Texture Manager is a multi-tool asset pipeline covering ACT palettes, DDS/TGA/PNG textures, legacy MAP textures, LGT lightmaps, and BZ2 DXTBZ2 textures. It also provides batch processing and texture-generation helpers for modern Redux assets.",
     features: ["ACT palette editing with engine-reserved index helpers", "DDS/TGA/PNG conversion and batch processing", "DXT1/DXT5 compression, mipmaps, power-of-two scaling, and alpha detection", "Normal/specular/emissive generation", "MAP ↔ PNG conversion with palette serialization", "LGT ↔ PNG conversion", "DXTBZ2 → DDS/PNG conversion"],
@@ -50,7 +69,8 @@ window.BZ_TOOL_DETAILS = {
   "bzradio": {
     name: "BZRadio",
     category: "Audio mastering",
-    repo: "Battlezone98Redux_AudioTool",
+    repo: "Battlezone98_Modding_Toolbox",
+    consolidatedInto: "Battlezone 98 Modding Toolbox",
     tagline: "Master voice, unit-response, loop, and music assets into Battlezone-friendly audio formats.",
     overview: "BZRadio automates the awkward format and processing requirements of Battlezone audio. It can create radio-style VO with filters and squelch beeps, clean thrust/turbo loops, high-quality OGG music, and a CSV timing manifest for Lua/subtitle synchronization.",
     features: ["Radio VO mastering with filtering, compression, tremolo, and optional beeps", "22050 Hz mono PCM_U8 voice output", "11025 Hz mono PCM_U8 thrust/turbo loop path", "44100 Hz stereo OGG soundtrack path", "Metadata/non-audio-stream stripping", "Batch and single-file processing", "CSV duration manifest for mission scripting"],
@@ -66,7 +86,8 @@ window.BZ_TOOL_DETAILS = {
   "localization-tool": {
     name: "Localization Tool & ODF Scanner",
     category: "Localization workflow",
-    repo: "Battlezone98Redux_LocalizationTool",
+    repo: "Battlezone98_Modding_Toolbox",
+    consolidatedInto: "Battlezone 98 Modding Toolbox",
     tagline: "Scan mod content, generate localization keys, and build multilingual localization-table entries.",
     overview: "The localization tool combines manual text entry with an ODF scanner. It can discover unit names from mod folders, generate Battlezone localization keys, avoid duplicate entries, and translate output into the languages supported by the workflow.",
     features: ["ODF folder scanning and unitName extraction", "Filename fallback when unitName is missing", "Smart key generation for names and mission titles", "Existing-CSV de-duplication", "French, German, Spanish, Italian, Russian, and Portuguese translation", "Progress feedback for bulk jobs"],
@@ -81,7 +102,8 @@ window.BZ_TOOL_DETAILS = {
   "font-generator": {
     name: "BZ Font Sheet Generator",
     category: "Font atlas generator",
-    repo: "Battlezone98ReduxFontGenerator",
+    repo: "Battlezone98_Modding_Toolbox",
+    consolidatedInto: "Battlezone 98 Modding Toolbox",
     tagline: "Create custom bzfont.dds atlases using the stock Battlezone character layout.",
     overview: "The font generator builds a complete 1024×1024 RGBA Battlezone font atlas from TTF/OTF fonts. It uses stock-derived sprite coordinates, provides baseline/alignment controls, supports separate letter and symbol fonts, and can compare the generated atlas with the stock layout.",
     features: ["Stock bzfont.st-derived atlas slot layout", "1024×1024 RGBA output", "TTF/OTF input and dual-font support", "Baseline auto-alignment and manual nudging", "Profiles for reusable settings", "Stock comparison overlay", "Direct bzfont.dds export"],
@@ -96,7 +118,8 @@ window.BZ_TOOL_DETAILS = {
   "holotextgen": {
     name: "HoloTextGen",
     category: "HUD content generator",
-    repo: "Battlezone98Redux_HoloTextGen",
+    repo: "Battlezone98_Modding_Toolbox",
+    consolidatedInto: "Battlezone 98 Modding Toolbox",
     tagline: "Generate the ODF, image, and material assets needed for MakeExplosion-based in-world HUD text.",
     overview: "HoloTextGen packages the repetitive asset-authoring side of holographic text effects. Instead of manually creating each supporting image/material/ODF combination, the tool produces the files needed to display text through the Battlezone MakeExplosion technique.",
     features: ["Generates supporting ODF files", "Generates text image assets", "Generates material definitions", "Battlezone-styled desktop UI", "Designed specifically around the MakeExplosion holographic-text technique"],
@@ -111,7 +134,8 @@ window.BZ_TOOL_DETAILS = {
   "workshop-uploader": {
     name: "Workshop Uploader",
     category: "Steam Workshop publishing",
-    repo: "Battlezone98Redux_WorkshopUploader",
+    repo: "Battlezone98_Modding_Toolbox",
+    consolidatedInto: "Battlezone 98 Modding Toolbox",
     tagline: "Validate, pair, review, and publish Battlezone mods through SteamCMD with better diagnostics than the legacy uploader.",
     overview: "The Workshop Uploader is a project-centric publishing workspace. It remembers local projects and Workshop IDs, scans Battlezone content for common problems, tracks changes since the last publish, and drives SteamCMD uploads with clearer logs and recovery.",
     features: ["Saved local projects and Workshop pairing", "Steam Web API Workshop library", "ODF/material/reference validation", "TRN duplicate/line-ending checks and one-click fixes", "Legacy MAP detection", "Changed-file tracking", "SteamCMD VDF generation and upload logging", "Memory/VRAM estimate and orphan-file analysis"],
@@ -157,7 +181,8 @@ window.BZ_TOOL_DETAILS = {
   "bzn-scanner": {
     name: "BZN Scanner",
     category: "Mission diagnostics",
-    repo: "Battlezone98Redux_BZN_Scanner",
+    repo: "Battlezone98_Modding_Toolbox",
+    consolidatedInto: "Battlezone 98 Modding Toolbox",
     tagline: "Find the ODF dependencies referenced by ASCII or binary BZN mission files.",
     overview: "BZN Scanner is a focused troubleshooting utility for mission packaging. It scans a BZN for referenced ODF names, separates stock/custom references, and checks whether the referenced custom ODF files exist beside the mission.",
     features: ["ASCII BZN scanning", "Binary BZN scanning", "Referenced-ODF discovery", "Stock/custom sorting", "Presence checks against the mission directory", "Simple desktop GUI"],
@@ -172,7 +197,8 @@ window.BZ_TOOL_DETAILS = {
   "zfs-specialist": {
     name: "ZFS Specialist",
     category: "Archive explorer & packer",
-    repo: "Battlezone98Redux_ZFSSpecialist",
+    repo: "Battlezone98_Modding_Toolbox",
+    consolidatedInto: "Battlezone 98 Modding Toolbox",
     tagline: "Browse, extract, decrypt, and create Battlezone ZFS archives from a modern GUI.",
     overview: "ZFS Specialist is an archive explorer/packer for Battlezone's ZFS format. It supports searching large archives, extraction, force extraction, LZO-compressed packing, and MakeZFS-compatible XOR encryption/decryption behavior.",
     features: ["Browse archive contents without full extraction", "Realtime filename/extension filtering", "Multi-file extraction", "LZO1X-1 compressed archive creation", "XOR encrypted archive handling", "Decimal, hexadecimal, or password-derived keys", "Standalone executable workflow"],
